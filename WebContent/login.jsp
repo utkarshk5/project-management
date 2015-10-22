@@ -2,6 +2,10 @@
 <html lang="en">
   <head>
     <title>Signin Template for Bootstrap</title>
+<<<<<<< HEAD
+=======
+
+>>>>>>> ce378142eb94ba304c1cc7198b35e371c8ebe8cf
   </head>
 
   <body>
