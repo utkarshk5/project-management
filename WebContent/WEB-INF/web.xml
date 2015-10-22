@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<servlet-mapping>
+	<servlet-name>StudentAccess</servlet-name>
+	<url-pattern>/StudentAccess.java</url-pattern>
+</servlet-mapping>
+
+<servlet-mapping>
+	<servlet-name>Dashboard</servlet-name>
+	<url-pattern>Dashboard.java</url-pattern>
+</servlet-mapping>
+
+/>
