@@ -5,13 +5,13 @@ import java.sql.Date;
 import java.util.*;
 
 public class Task {
-	public static ResultSet getTasks(String id){
+	public static ResultSet getTasks(int id){
 		Connection connection=null;
 		ResultSet rs = null;
 		try{
 			connection=getConnection();
-			PreparedStatement pstmt= connection.prepareStatement("select * from tasks where assigned_to=1");
-			//pstmt.setString(1, id);
+			PreparedStatement pstmt= connection.prepareStatement("select * from tasks where assigned_to=?");
+			pstmt.setInt(1, id);
 			rs= pstmt.executeQuery();
 			return rs;
 		} catch(SQLException sqle){
@@ -27,10 +27,29 @@ public class Task {
 
 		try{
 			connection=getConnection();
-			PreparedStatement pstmt= connection.prepareStatement("insert into tasks (team_id, title, deadline) values (?,?,?)");
+			PreparedStatement pstmt= connection.prepareStatement("insert into tasks (assigned_to, title, deadline) values (?,?,?)");
 			pstmt.setInt(1, id);
 			pstmt.setString(2, title);
 			pstmt.setDate(3, deadline);
+			pstmt.executeUpdate();
+		} catch(SQLException sqle){
+			System.out.println("SQL exception when creating a new task");
+		} finally{
+			closeConnection(connection);
+		}
+	}
+	
+	public static void createSubTask(int id, String title, Date deadline, int supertask, int assigner_id){
+		Connection connection=null;
+
+		try{
+			connection=getConnection();
+			PreparedStatement pstmt= connection.prepareStatement("insert into tasks (assigned_to, title, deadline, supertask, assigned_by) values (?,?,?,?,?)");
+			pstmt.setInt(1, id);
+			pstmt.setString(2, title);
+			pstmt.setDate(3, deadline);
+			pstmt.setInt(4, supertask);
+			pstmt.setInt(5, assigner_id);
 			pstmt.executeUpdate();
 		} catch(SQLException sqle){
 			System.out.println("SQL exception when creating a new task");
@@ -44,11 +63,12 @@ public class Task {
 		
 		try{
 			connection=getConnection();
-			PreparedStatement pstmt= connection.prepareStatement("update task set done=1, comment=? where task_id=?");
-			pstmt.setInt(1, id);
+			PreparedStatement pstmt= connection.prepareStatement("update tasks set completed=1, remarks=? where task_id=?");
+			pstmt.setString(1, comment);
+			pstmt.setInt(2, id);
 			pstmt.executeUpdate();
 		} catch(SQLException sqle){
-			System.out.println("SQL exception when getting course list");
+			System.out.println("SQL exception when marking task as done");
 		} finally{
 			closeConnection(connection);
 		}
@@ -59,12 +79,12 @@ public class Task {
 		
 		try{
 			connection=getConnection();
-			PreparedStatement pstmt= connection.prepareStatement("update task set deadline=? where id=?");
+			PreparedStatement pstmt= connection.prepareStatement("update tasks set deadline=? where id=?");
 			pstmt.setDate(1, date);
 			pstmt.setInt(2, id);
 			pstmt.executeUpdate();
 		} catch(SQLException sqle){
-			System.out.println("SQL exception when getting course list");
+			System.out.println("SQL exception when extending the deadline");
 		} finally{
 			closeConnection(connection);
 		}
@@ -75,12 +95,12 @@ public class Task {
 		ResultSet rs = null;
 		try{
 			connection=getConnection();
-			PreparedStatement pstmt= connection.prepareStatement("select * from user where id=?");
+			PreparedStatement pstmt= connection.prepareStatement("select * from tasks where assigned_by=?");
 			pstmt.setInt(1, id);
 			rs= pstmt.executeQuery();
 			return rs;
 		} catch(SQLException sqle){
-			System.out.println("SQL exception when getting course list");
+			System.out.println("SQL exception when getting all the subtasks assigned by the user");
 		} finally{
 			closeConnection(connection);
 		}

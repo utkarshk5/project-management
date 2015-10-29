@@ -4,16 +4,21 @@ import java.sql.*;
 import java.util.*;
 
 public class User {	
-	public static void addUser(String name){
+	public static void addUser(String name, String email, String password, String phone, String address, int team_id){
 		Connection connection=null;
 		
 		try{
 			connection=getConnection();
-			PreparedStatement pstmt= connection.prepareStatement("insert into user (<attributes>) values (<values>)");
+			PreparedStatement pstmt= connection.prepareStatement("insert into users (full_name, email, password, phone, address, team_id) values (?,?,?,?,?,?)");
 			pstmt.setString(1, name);
+			pstmt.setString(2, email);
+			pstmt.setString(3, password);
+			pstmt.setString(4, phone);
+			pstmt.setString(5, address);
+			pstmt.setInt(6, team_id);
 			pstmt.executeUpdate();
 		} catch(SQLException sqle){
-			System.out.println("SQL exception when getting course list");
+			System.out.println("SQL exception when adding user");
 		} finally{
 			closeConnection(connection);
 		}
@@ -24,11 +29,11 @@ public class User {
 		
 		try{
 			connection=getConnection();
-			PreparedStatement pstmt= connection.prepareStatement("delete from user where id=?");
+			PreparedStatement pstmt= connection.prepareStatement("delete from users where user_id=?");
 			pstmt.setInt(1, id);
 			pstmt.executeUpdate();
 		} catch(SQLException sqle){
-			System.out.println("SQL exception when getting course list");
+			System.out.println("SQL exception when deleting user");
 		} finally{
 			closeConnection(connection);
 		}
@@ -39,12 +44,12 @@ public class User {
 		
 		try{
 			connection=getConnection();
-			PreparedStatement pstmt= connection.prepareStatement("update user set team_id=? where id=?");
+			PreparedStatement pstmt= connection.prepareStatement("update users set team_id=? where user_id=?");
 			pstmt.setInt(1, teamID);
 			pstmt.setInt(2, id);
 			pstmt.executeUpdate();
 		} catch(SQLException sqle){
-			System.out.println("SQL exception when getting course list");
+			System.out.println("SQL exception when assigning team to a user");
 		} finally{
 			closeConnection(connection);
 		}
@@ -67,6 +72,24 @@ public class User {
 			return rs.getInt("user_id");
 		} catch(SQLException sqle){
 			System.out.println("SQL exception when trying to authenticate");
+		} finally{
+			closeConnection(connection);
+		}
+		return -1;
+	}
+	
+	public static int getLeader(int id){
+		Connection connection=null;
+		
+		try{
+			connection=getConnection();
+			PreparedStatement pstmt= connection.prepareStatement("select leader_id from users natural join teams where user_id=?");
+			pstmt.setInt(1, id);
+			ResultSet rs = pstmt.executeQuery();
+			if(!rs.next()) return -1;
+			else return rs.getInt(1);
+		} catch(SQLException sqle){
+			System.out.println("SQL exception when getting leader for the user");
 		} finally{
 			closeConnection(connection);
 		}

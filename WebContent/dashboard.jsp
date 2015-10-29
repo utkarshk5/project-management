@@ -23,9 +23,9 @@
 	<body>
 
 <%
-	String id = request.getAttribute("id").toString(),
-		auth=request.getAttribute("auth").toString(),
-		team_id=request.getAttribute("team_id").toString();
+	int id = Integer.parseInt(request.getAttribute("id").toString()),
+		auth = Integer.parseInt(request.getAttribute("auth").toString()),
+		team_id = Integer.parseInt(request.getAttribute("team_id").toString());
 	ResultSet taskRS = Task.getTasks(id);
 %>
 
@@ -46,7 +46,7 @@
 						<div class="panel-heading" role="tab" id="headingOne">
 						  <h4 class="panel-title">
 							<a role="button" data-toggle="collapse" data-parent="#accordion" href="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
-							<%
+						<%
 							out.print(i + "&emsp;" + taskRS.getString("title") + "&emsp;" + taskRS.getString("deadline") + "&emsp;" + taskRS.getString("task_id"));
 							%>
 							</a>
@@ -78,17 +78,9 @@
 						  </div>
 						</div>
 					  </div>
-<% } %>
+<%} %>
 					</div>
 				</div>
-
-
-
-
-
-
-
-
 			</div>
 		</div>
 
