@@ -9,7 +9,7 @@ public class Team {
 		
 		try{
 			connection=getConnection();
-			PreparedStatement pstmt= connection.prepareStatement("insert into team (<attributes> values (?, ?))");
+			PreparedStatement pstmt= connection.prepareStatement("insert into teams (team_name, leader_id) values (?, ?)");
 			pstmt.setString(1, name);
 			pstmt.setInt(2, leader);
 			pstmt.executeUpdate();
@@ -25,7 +25,7 @@ public class Team {
 		
 		try{
 			connection=getConnection();
-			PreparedStatement pstmt= connection.prepareStatement("update team set leader=? where id=?");
+			PreparedStatement pstmt= connection.prepareStatement("update teams set leader_id=? where team_id=?");
 			pstmt.setInt(1, leader);
 			pstmt.setInt(2, teamID);
 			pstmt.executeUpdate();
@@ -41,7 +41,7 @@ public class Team {
 		
 		try{
 			connection=getConnection();
-			PreparedStatement pstmt= connection.prepareStatement("delete from team where id=?");
+			PreparedStatement pstmt= connection.prepareStatement("delete from teams where team_id=?");
 			pstmt.setInt(1, teamID);
 			pstmt.executeUpdate();
 		} catch(SQLException sqle){
@@ -56,7 +56,7 @@ public class Team {
 		ResultSet rs = null;
 		try{
 			connection=getConnection();
-			PreparedStatement pstmt= connection.prepareStatement("select * from team where id=?");
+			PreparedStatement pstmt= connection.prepareStatement("select * from users where team_id=?");
 			pstmt.setInt(1, teamID);
 			rs= pstmt.executeQuery();
 			return rs;

@@ -4,13 +4,18 @@ import java.sql.*;
 import java.util.*;
 
 public class User {	
-	public static void addUser(String name){
+	public static void addUser(String name, String email, String password, String phone, String address, int team_id){
 		Connection connection=null;
 		
 		try{
 			connection=getConnection();
-			PreparedStatement pstmt= connection.prepareStatement("insert into user (<attributes>) values (<values>)");
+			PreparedStatement pstmt= connection.prepareStatement("insert into users (full_name, email, password, phone, address, team_id) values (?,?,?,?,?,?)");
 			pstmt.setString(1, name);
+			pstmt.setString(2, email);
+			pstmt.setString(3, password);
+			pstmt.setString(4, phone);
+			pstmt.setString(5, address);
+			pstmt.setInt(6, team_id);
 			pstmt.executeUpdate();
 		} catch(SQLException sqle){
 			System.out.println("SQL exception when getting course list");
@@ -24,7 +29,7 @@ public class User {
 		
 		try{
 			connection=getConnection();
-			PreparedStatement pstmt= connection.prepareStatement("delete from user where id=?");
+			PreparedStatement pstmt= connection.prepareStatement("delete from users where user_id=?");
 			pstmt.setInt(1, id);
 			pstmt.executeUpdate();
 		} catch(SQLException sqle){
@@ -39,7 +44,7 @@ public class User {
 		
 		try{
 			connection=getConnection();
-			PreparedStatement pstmt= connection.prepareStatement("update user set team_id=? where id=?");
+			PreparedStatement pstmt= connection.prepareStatement("update users set team_id=? where user_id=?");
 			pstmt.setInt(1, teamID);
 			pstmt.setInt(2, id);
 			pstmt.executeUpdate();
