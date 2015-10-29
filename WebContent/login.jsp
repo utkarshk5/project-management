@@ -1,22 +1,45 @@
 <!DOCTYPE html>
 <html lang="en">
   <head>
+    <link rel="icon" href="../../favicon.ico">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
     <title>Signin Template for Bootstrap</title>
-<<<<<<< HEAD
-=======
 
->>>>>>> ce378142eb94ba304c1cc7198b35e371c8ebe8cf
+    <!-- Bootstrap core CSS -->
+    <link href="bootstrap/css/bootstrap.css" rel="stylesheet">
+
   </head>
 
   <body>
-	<form class="form-horizontal" action='Login' method="POST">
-        <label class="control-label" for="email">Email</label>
-        <input type="text" id="email" name="email" placeholder="">
-        <label class="control-label" for="password">Password</label>
-		<input type="password" id="password" name="password" placeholder="">
-        <button class="btn btn-success" type="submit">Login</button>
-	</form><br/>
-	<a> First time here? Register </a><br/><br/>
-	<a> Forgot password? </a>
+	<div class="container">
+	    <div class="row">
+			<div class="span12">
+				<form class="form-horizontal" action='Login' method="POST">
+				  <fieldset>
+				    <div id="legend">
+				      <legend class="">Login</legend>
+				    </div>
+				      <!-- Username -->
+				      <label class="control-label" for="email">Email</label>
+				      <div class="controls">
+				        <input type="text" id="email" name="email" placeholder="">
+				      </div><br/>
+				      <!-- Password-->
+				      <label class="control-label" for="password">Password</label>
+				      <div class="controls">
+				        <input type="password" id="password" name="password" placeholder="">
+				      </div><br/>
+				      <span class="error" style="color:red">${error}</span><br>
+				      <!-- Button -->
+				      <div class="controls">
+				        <button class="btn btn-success">Login</button>
+				      </div>
+				  </fieldset>
+				</form><br/>
+			<a> First time here? Register </a><br/><br/>
+			<a> Forgot password? </a>
+			</div>
+		</div>
+	</div>
   </body>
 </html>

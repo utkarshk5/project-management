@@ -1,26 +1,31 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<<<<<<< HEAD
 <!DOCTYPE xml>
-<servlet-mapping>
-	<servlet-name>StudentAccess</servlet-name>
-	<url-pattern>/StudentAccess.java</url-pattern>
-
-	<servlet-name>Login</servlet-name>
-	<url-pattern>Login.java</url-pattern>
-
-	<servlet-name>Dashboard</servlet-name>
-	<url-pattern>Dashboard.java</url-pattern>
-</servlet-mapping>
-=======
-<servlet-mapping>
-	<servlet-name>StudentAccess</servlet-name>
-	<url-pattern>/StudentAccess.java</url-pattern>
-</servlet-mapping>
-
-<servlet-mapping>
-	<servlet-name>Dashboard</servlet-name>
-	<url-pattern>Dashboard.java</url-pattern>
-</servlet-mapping>
-
-/>
->>>>>>> ce378142eb94ba304c1cc7198b35e371c8ebe8cf
+<web-app xmlns="http://java.sun.com/xml/ns/javaee"
+  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:schemaLocation="http://java.sun.com/xml/ns/javaee
+                      http://java.sun.com/xml/ns/javaee/web-app_3_0.xsd"
+  version="3.0">
+	<welcome-file-list>
+	        <welcome-file>login.jsp</welcome-file>
+	</welcome-file-list>
+	
+	<servlet>  
+		<servlet-name>Login</servlet-name>  
+		<servlet-class>Servlets</servlet-class>  
+	</servlet>  
+	
+	<servlet-mapping>
+		<servlet-name>Login</servlet-name>
+		<url-pattern>/Login.java</url-pattern>
+	</servlet-mapping>
+	
+	<servlet>  
+		<servlet-name>StudentAccess</servlet-name>  
+		<servlet-class>Servlets</servlet-class>  
+	</servlet>  
+	
+	<servlet-mapping>
+		<servlet-name>StudentAccess</servlet-name>
+		<url-pattern>/StudentAccess.java</url-pattern>
+	</servlet-mapping>
+</web-app>

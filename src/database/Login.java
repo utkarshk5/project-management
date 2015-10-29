@@ -44,13 +44,14 @@ public class Login extends HttpServlet {
 		int auth=0; int id = User.auth(email, password, auth); 
 		if(id==-1) {
 			out.println("Username or Password incorrect");
+			request.setAttribute("error", "*Incorrect Username or Password");
 			RequestDispatcher rs = request.getRequestDispatcher("login.jsp");
-	        rs.include(request, response);
+	        rs.forward(request, response);
 		}
 		else {
-			RequestDispatcher rs = request.getRequestDispatcher("Dashboard");
 			request.setAttribute("id", id);
 			request.setAttribute("auth", auth);
+			RequestDispatcher rs = request.getRequestDispatcher("dashboard.jsp");
 			rs.forward(request, response);
 		}
 	}

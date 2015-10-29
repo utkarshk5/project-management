@@ -8,12 +8,8 @@
 </head>
 <body>
 
-<<<<<<< HEAD
-<form action="student_result.jsp" method="post">
-=======
 <form action="StudentAccess" method="post">
->>>>>>> ce378142eb94ba304c1cc7198b35e371c8ebe8cf
-Enter Id: 
+
 <input type="text" name="id" value=""></input><br><br>
 <input type="radio" name="option" value="getCourses">Get courses this student has been enrolled in<br>
 <input type="radio" name="option" value="getInstructors">Get Name of instructors who have taught the students <br>
