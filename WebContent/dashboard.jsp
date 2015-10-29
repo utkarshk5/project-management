@@ -23,7 +23,9 @@
 	<body>
 
 <%
-	String id = request.getAttribute("id").toString();
+	String id = request.getAttribute("id").toString(),
+		auth=request.getAttribute("auth").toString(),
+		team_id=request.getAttribute("team_id").toString();
 	ResultSet taskRS = Task.getTasks(id);
 %>
 

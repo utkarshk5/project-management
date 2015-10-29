@@ -62,11 +62,9 @@ public class User {
 			ResultSet rs= pstmt.executeQuery();
 			if(!rs.next())	return -1;
 			
-			auth = rs.getInt(2);
-			team_id = rs.getInt(3);
-			System.out.println(auth);
-			System.out.println(rs.getInt(1));
-			return rs.getInt(1);
+			auth = rs.getInt("clearance");
+			team_id = rs.getInt("team_id");
+			return rs.getInt("user_id");
 		} catch(SQLException sqle){
 			System.out.println("SQL exception when trying to authenticate");
 		} finally{

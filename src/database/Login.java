@@ -1,9 +1,6 @@
 package database;
 
 import java.io.IOException;
-import java.io.PrintWriter;
-
-import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -29,13 +26,11 @@ public class Login extends HttpServlet {
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		// TODO Auto-generated method stub
-		PrintWriter out = response.getWriter();
+		// TODO hide jsp inside WEB-INF
 		String email = request.getParameter("email"); 
 		String password = request.getParameter("password");
 		int auth=0, team_id=0; int id = User.auth(email, password, auth, team_id); 
 		if(id==-1) {
-			out.println("Username or Password incorrect");
 			request.setAttribute("error", "*Incorrect Username or Password");
 			request.getRequestDispatcher("login.jsp").forward(request, response);
 		}
@@ -54,5 +49,4 @@ public class Login extends HttpServlet {
 		// TODO Auto-generated method stub
 		doGet(request, response);
 	}
-
 }
