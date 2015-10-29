@@ -67,7 +67,7 @@ public class Team {
 		}
 		return rs;
 	}
-		
+
 	static Connection getConnection() {
 		String dbURL = "jdbc:postgresql://10.105.1.12/cs387";
         String dbUser = "db130050022";

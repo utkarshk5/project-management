@@ -51,18 +51,19 @@ public class User {
 
 	}
 	
-	public static int auth(String email, String pass, int auth){
+	public static int auth(String email, String pass, int auth, int team_id){
 		Connection connection=null;
 		
 		try{
 			connection=getConnection();
-			PreparedStatement pstmt= connection.prepareStatement("select user_id, clearance from users where email=? and password=?");
+			PreparedStatement pstmt= connection.prepareStatement("select user_id, clearance, team_id from users where email=? and password=?");
 			pstmt.setString(1, email);
 			pstmt.setString(2, pass);
 			ResultSet rs= pstmt.executeQuery();
 			if(!rs.next())	return -1;
 			
 			auth = rs.getInt(2);
+			team_id = rs.getInt(3);
 			System.out.println(auth);
 			System.out.println(rs.getInt(1));
 			return rs.getInt(1);
