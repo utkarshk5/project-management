@@ -14,7 +14,7 @@ public class Team {
 			pstmt.setInt(2, leader);
 			pstmt.executeUpdate();
 		} catch(SQLException sqle){
-			System.out.println("SQL exception when getting course list");
+			System.out.println("SQL exception creating team");
 		} finally{
 			closeConnection(connection);
 		}
@@ -30,7 +30,7 @@ public class Team {
 			pstmt.setInt(2, teamID);
 			pstmt.executeUpdate();
 		} catch(SQLException sqle){
-			System.out.println("SQL exception when getting course list");
+			System.out.println("SQL exception changing team leader");
 		} finally{
 			closeConnection(connection);
 		}
@@ -45,7 +45,7 @@ public class Team {
 			pstmt.setInt(1, teamID);
 			pstmt.executeUpdate();
 		} catch(SQLException sqle){
-			System.out.println("SQL exception when getting course list");
+			System.out.println("SQL exception deleting team");
 		} finally{
 			closeConnection(connection);
 		}
@@ -61,13 +61,13 @@ public class Team {
 			rs= pstmt.executeQuery();
 			return rs;
 		} catch(SQLException sqle){
-			System.out.println("SQL exception when getting course list");
+			System.out.println("SQL exception when getting team members");
 		} finally{
 			closeConnection(connection);
 		}
 		return rs;
 	}
-		
+
 	static Connection getConnection() {
 		String dbURL = "jdbc:postgresql://10.105.1.12/cs387";
         String dbUser = "db130050022";

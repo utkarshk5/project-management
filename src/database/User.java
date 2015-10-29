@@ -18,7 +18,7 @@ public class User {
 			pstmt.setInt(6, team_id);
 			pstmt.executeUpdate();
 		} catch(SQLException sqle){
-			System.out.println("SQL exception when getting course list");
+			System.out.println("SQL exception when adding user");
 		} finally{
 			closeConnection(connection);
 		}
@@ -33,7 +33,7 @@ public class User {
 			pstmt.setInt(1, id);
 			pstmt.executeUpdate();
 		} catch(SQLException sqle){
-			System.out.println("SQL exception when getting course list");
+			System.out.println("SQL exception when deleting user");
 		} finally{
 			closeConnection(connection);
 		}
@@ -49,30 +49,49 @@ public class User {
 			pstmt.setInt(2, id);
 			pstmt.executeUpdate();
 		} catch(SQLException sqle){
-			System.out.println("SQL exception when getting course list");
+			System.out.println("SQL exception when assigning team to a user");
 		} finally{
 			closeConnection(connection);
 		}
 
 	}
 	
-	public static int auth(String email, String pass, int auth){
+	public static int auth(String email, String pass, int auth, int team_id){
 		Connection connection=null;
 		
 		try{
 			connection=getConnection();
-			PreparedStatement pstmt= connection.prepareStatement("select user_id, clearance from users where email=? and password=?");
+			PreparedStatement pstmt= connection.prepareStatement("select user_id, clearance, team_id from users where email=? and password=?");
 			pstmt.setString(1, email);
 			pstmt.setString(2, pass);
 			ResultSet rs= pstmt.executeQuery();
 			if(!rs.next())	return -1;
 			
 			auth = rs.getInt(2);
+			team_id = rs.getInt(3);
 			System.out.println(auth);
 			System.out.println(rs.getInt(1));
 			return rs.getInt(1);
 		} catch(SQLException sqle){
 			System.out.println("SQL exception when trying to authenticate");
+		} finally{
+			closeConnection(connection);
+		}
+		return -1;
+	}
+	
+	public static int getLeader(int id){
+		Connection connection=null;
+		
+		try{
+			connection=getConnection();
+			PreparedStatement pstmt= connection.prepareStatement("select leader_id from users natural join teams where user_id=?");
+			pstmt.setInt(1, id);
+			ResultSet rs = pstmt.executeQuery();
+			if(!rs.next()) return -1;
+			else return rs.getInt(1);
+		} catch(SQLException sqle){
+			System.out.println("SQL exception when getting leader for the user");
 		} finally{
 			closeConnection(connection);
 		}
