@@ -29,7 +29,7 @@ public class Login extends HttpServlet {
 		// TODO hide jsp inside WEB-INF
 		String email = request.getParameter("email"); 
 		String password = request.getParameter("password");
-		int auth=0, team_id=0; int id = User.auth(email, password, auth, team_id); 
+		int auth=0; int id = User.auth(email, password, auth); 
 		if(id==-1) {
 			request.setAttribute("error", "*Incorrect Username or Password");
 			request.getRequestDispatcher("login.jsp").forward(request, response);
@@ -37,7 +37,6 @@ public class Login extends HttpServlet {
 		else {
 			request.setAttribute("id", id);
 			request.setAttribute("auth", auth);
-			request.setAttribute("team_id", team_id);
 			request.getRequestDispatcher("dashboard.jsp").forward(request, response);
 		}
 	}

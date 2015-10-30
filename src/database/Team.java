@@ -4,6 +4,23 @@ import java.sql.*;
 import java.util.*;
 
 public class Team {
+	public static ResultSet getTeams(int id){
+		Connection connection=null;
+		ResultSet rs = null;
+		try{
+			connection=getConnection();
+			PreparedStatement pstmt= connection.prepareStatement("select * from teams natural join teamAssign where user_id=?");
+			pstmt.setInt(1, id);
+			rs = pstmt.executeQuery();
+			return rs;
+		} catch(SQLException sqle){
+			System.out.println("SQL exception when getting teams of the user");
+		} finally{
+			closeConnection(connection);
+		}
+		return rs;
+	}
+	
 	public static void makeTeam(String name, int leader){
 		Connection connection=null;
 		
@@ -70,7 +87,7 @@ public class Team {
 		ResultSet rs = null;
 		try{
 			connection=getConnection();
-			PreparedStatement pstmt= connection.prepareStatement("select * from users where team_id=?");
+			PreparedStatement pstmt= connection.prepareStatement("select * from users natural join teamAssign where team_id=?");
 			pstmt.setInt(1, teamID);
 			rs= pstmt.executeQuery();
 			return rs;
@@ -80,6 +97,22 @@ public class Team {
 			closeConnection(connection);
 		}
 		return rs;
+	}
+	
+	public static void addMember(int id, int teamID){
+		Connection connection=null;
+		
+		try{
+			connection=getConnection();
+			PreparedStatement pstmt= connection.prepareStatement("insert into teamAssign (team_id, user_id) values (?,?)");
+			pstmt.setInt(1, teamID);
+			pstmt.setInt(2, id);
+			pstmt.executeUpdate();
+		} catch(SQLException sqle){
+			System.out.println("SQL exception when adding user to the team");
+		} finally{
+			closeConnection(connection);
+		}
 	}
 
 	static Connection getConnection() {

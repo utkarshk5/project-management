@@ -5,13 +5,14 @@ import java.sql.Date;
 import java.util.*;
 
 public class Task {
-	public static ResultSet getTasks(int id){
+	public static ResultSet getTasks(int id, boolean comp){
 		Connection connection=null;
 		ResultSet rs = null;
 		try{
 			connection=getConnection();
-			PreparedStatement pstmt= connection.prepareStatement("select * from tasks where assigned_to=?");
+			PreparedStatement pstmt= connection.prepareStatement("select * from tasks natural join taskAssign where user_id=? and completed=?");
 			pstmt.setInt(1, id);
+			pstmt.setBoolean(2, comp);
 			rs= pstmt.executeQuery();
 			return rs;
 		} catch(SQLException sqle){
@@ -22,16 +23,47 @@ public class Task {
 		return rs;
 	}
 	
-	public static void createTask(int id, String title, Date deadline){
+	public static int getTeamIDforTask(int id){
+		Connection connection=null;
+		int teamID = -1;
+		try{
+			connection=getConnection();
+			PreparedStatement pstmt= connection.prepareStatement("select team_id from tasks where task_id=? and completed=?");
+			pstmt.setInt(1, id);
+			ResultSet rs= pstmt.executeQuery();
+			if(!rs.next()) return teamID;
+			teamID = rs.getInt(1);
+			return teamID;
+		} catch(SQLException sqle){
+			System.out.println("SQL exception when getting all tasks for a user");
+		} finally{
+			closeConnection(connection);
+		}
+		return teamID;
+	}
+	
+	public static void createTask(ArrayList<Integer> id, String title, Date deadline, int assigner_id, int team_id){
 		Connection connection=null;
 
 		try{
 			connection=getConnection();
-			PreparedStatement pstmt= connection.prepareStatement("insert into tasks (assigned_to, title, deadline) values (?,?,?)");
-			pstmt.setInt(1, id);
-			pstmt.setString(2, title);
-			pstmt.setDate(3, deadline);
+			PreparedStatement pstmt= connection.prepareStatement("insert into tasks (title, deadline, assigned_by, team_id) values (?,?,?,?)");
+			pstmt.setString(1, title);
+			pstmt.setDate(2, deadline);
+			pstmt.setInt(3, assigner_id);
+			pstmt.setInt(4, team_id);
 			pstmt.executeUpdate();
+			PreparedStatement pstmt1= connection.prepareStatement("select max(task_id) from tasks");
+			ResultSet rs1 = pstmt1.executeQuery();
+			rs1.next();
+			int task_id = rs1.getInt(1);
+			for(int i=0;i<id.size();++i)
+			{
+				PreparedStatement pstmt2= connection.prepareStatement("insert into taskAssign (task_id, user_id) values (?,?)");
+				pstmt2.setInt(1, task_id);
+				pstmt2.setInt(2, id.get(i));
+				pstmt2.executeUpdate();
+			}
 		} catch(SQLException sqle){
 			System.out.println("SQL exception when creating a new task");
 		} finally{
@@ -39,18 +71,31 @@ public class Task {
 		}
 	}
 	
-	public static void createSubTask(int id, String title, Date deadline, int supertask, int assigner_id){
+	public static void createSubTask(ArrayList<Integer> id, String title, Date deadline, int supertask, int assigner_id){
 		Connection connection=null;
 
 		try{
+			//Integrity check for supertask
 			connection=getConnection();
-			PreparedStatement pstmt= connection.prepareStatement("insert into tasks (assigned_to, title, deadline, supertask, assigned_by) values (?,?,?,?,?)");
-			pstmt.setInt(1, id);
-			pstmt.setString(2, title);
-			pstmt.setDate(3, deadline);
-			pstmt.setInt(4, supertask);
-			pstmt.setInt(5, assigner_id);
+			int team_id = getTeamIDforTask(supertask);
+			PreparedStatement pstmt= connection.prepareStatement("insert into tasks (title, deadline, supertask, assigned_by, team_id) values (?,?,?,?,?)");
+			pstmt.setString(1, title);
+			pstmt.setDate(2, deadline);
+			pstmt.setInt(3, supertask);
+			pstmt.setInt(4, assigner_id);
+			pstmt.setInt(5, team_id);
 			pstmt.executeUpdate();
+			PreparedStatement pstmt1= connection.prepareStatement("select max(task_id) from tasks");
+			ResultSet rs1 = pstmt1.executeQuery();
+			rs1.next();
+			int task_id = rs1.getInt(1);
+			for(int i=0;i<id.size();++i)
+			{
+				PreparedStatement pstmt2= connection.prepareStatement("insert into taskAssign (task_id, user_id) values (?,?)");
+				pstmt2.setInt(1, task_id);
+				pstmt2.setInt(2, id.get(i));
+				pstmt2.executeUpdate();
+			}
 		} catch(SQLException sqle){
 			System.out.println("SQL exception when creating a new subtask");
 		} finally{
@@ -63,7 +108,7 @@ public class Task {
 		
 		try{
 			connection=getConnection();
-			PreparedStatement pstmt= connection.prepareStatement("update tasks set completed=1, remarks=? where task_id=?");
+			PreparedStatement pstmt= connection.prepareStatement("update tasks set completed=true, remarks=? where task_id=?");
 			pstmt.setString(1, comment);
 			pstmt.setInt(2, id);
 			pstmt.executeUpdate();
@@ -78,6 +123,7 @@ public class Task {
 		Connection connection=null;
 		
 		try{
+			// Integrity check for deadline
 			connection=getConnection();
 			PreparedStatement pstmt= connection.prepareStatement("update tasks set deadline=? where id=?");
 			pstmt.setDate(1, date);
