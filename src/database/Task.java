@@ -23,6 +23,23 @@ public class Task {
 		return rs;
 	}
 	
+	public static ResultSet getSubtasks(int id){
+		Connection connection=null;
+		ResultSet rs = null;
+		try{
+			connection=getConnection();
+			PreparedStatement pstmt= connection.prepareStatement("select * from tasks where assigned_by=?");
+			pstmt.setInt(1, id);
+			rs= pstmt.executeQuery();
+			return rs;
+		} catch(SQLException sqle){
+			System.out.println("SQL exception when getting all the subtasks assigned by the user");
+		} finally{
+			closeConnection(connection);
+		}
+		return rs;
+	}
+			
 	public static int getTeamIDforTask(int id){
 		Connection connection=null;
 		int teamID = -1;
@@ -136,23 +153,6 @@ public class Task {
 		}
 	}
 	
-	public static ResultSet getSubtasks(int id){
-		Connection connection=null;
-		ResultSet rs = null;
-		try{
-			connection=getConnection();
-			PreparedStatement pstmt= connection.prepareStatement("select * from tasks where assigned_by=?");
-			pstmt.setInt(1, id);
-			rs= pstmt.executeQuery();
-			return rs;
-		} catch(SQLException sqle){
-			System.out.println("SQL exception when getting all the subtasks assigned by the user");
-		} finally{
-			closeConnection(connection);
-		}
-		return rs;
-	}
-			
 	static Connection getConnection() {
 		String dbURL = "jdbc:postgresql://10.105.1.12/cs387";
         String dbUser = "db130050022";

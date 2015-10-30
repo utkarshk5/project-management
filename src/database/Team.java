@@ -37,18 +37,19 @@ public class Team {
 		}
 	}
 
-	public static void getTeams(){
+	public static ResultSet getallTeams(){
 		Connection connection=null;
 		
 		try{
 			connection=getConnection();
-			PreparedStatement pstmt= connection.prepareStatement("select * from teams");
-			pstmt.executeQuery();
+			PreparedStatement pstmt= connection.prepareStatement("select team_id, team_name from teams");
+			return  pstmt.executeQuery();
 		} catch(SQLException sqle){
 			System.out.println("SQL exception getting all teams");
 		} finally{
 			closeConnection(connection);
 		}
+		return null;
 	}
 
 	public static void ChangeLeader(int teamID, int leader){

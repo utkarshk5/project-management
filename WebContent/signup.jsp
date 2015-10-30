@@ -20,7 +20,7 @@
 </head>
 <body>
 <%
-	
+	ResultSet teamsRS=Team.getallTeams(); 
 %>
 
 	<div class="container">
@@ -70,10 +70,10 @@
 						<label for="team">Enter Team</label>
 						<div class="input-group">
 							<select name="team" class="form-control" id="team">
-								<option>Team A</option>
-								<option>Team B</option>
-								<option>Team C</option>
-								<option>Team D</option>
+								<option disabled selected> Choose Team </option>
+	<% for(int i=1; teamsRS.next(); i++){ %>
+								<option value="<%out.print(teamsRS.getInt("team_id"));%>"><%out.print(teamsRS.getString("team_name")); %></option>
+	<% } %>
 							</select><br/>
 							<span class="input-group-addon"><span class="glyphicon glyphicon-asterisk"></span></span>
 						</div>
@@ -85,6 +85,7 @@
 							<span class="input-group-addon"><span class="glyphicon glyphicon-asterisk"></span></span>
 						</div>
 					</div>
+					<input type="hidden" name="formType" value="addUser">
 					<input type="submit" name="submit" id="submit" value="Submit" class="btn btn-info pull-right">
 				</div>
 			</form>
