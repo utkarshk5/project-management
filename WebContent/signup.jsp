@@ -69,7 +69,7 @@
 					<div class="form-group">
 						<label for="team">Enter Team</label>
 						<div class="input-group">
-							<select name="team" class="form-control" id="team">
+							<select name="team_id" class="form-control" id="team_id">
 								<option disabled selected> Choose Team </option>
 	<% for(int i=1; teamsRS.next(); i++){ %>
 								<option value="<%out.print(teamsRS.getInt("team_id"));%>"><%out.print(teamsRS.getString("team_name")); %></option>

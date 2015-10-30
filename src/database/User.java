@@ -16,7 +16,7 @@ public class User {
 			pstmt.setString(4, phone);
 			pstmt.setString(5, address);
 			pstmt.executeUpdate();
-			PreparedStatement pstmt1= connection.prepareStatement("select max(task_id) from tasks");
+			PreparedStatement pstmt1= connection.prepareStatement("select max(user_id) from users");
 			ResultSet rs1 = pstmt1.executeQuery();
 			rs1.next();
 			int user_id = rs1.getInt(1);

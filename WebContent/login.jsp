@@ -13,6 +13,9 @@
   <body>
 	<div class="container">
 	    <div class="row">
+			<div id="legend">
+				<legend class="">Login</legend>
+			</div>
 			<div class="span12">
 				<form class="form-horizontal" action='Login' method="POST">
 				  <fieldset>

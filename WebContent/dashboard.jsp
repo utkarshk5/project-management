@@ -162,7 +162,7 @@
 										Select person
 										<select multiple name="assignedTo" class="form-control" placeholder="Assign To">
 										<%
-										ResultSet memberRS = Team.getMembers(0);
+										memberRS = Team.getMembers(0);
 										for(j=1; memberRS.next(); j++){
 											%>
 											<option value="user<% out.print(memberRS.getInt("user_id")); %>"><%out.print(memberRS.getString("username") + "&emsp;&lt;" + memberRS.getString("email") + "&gt;"); %></option>
