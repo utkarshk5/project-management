@@ -53,8 +53,48 @@ public class Login extends HttpServlet {
 				request.setAttribute("error", "Registered successfully! Please login");
 				request.getRequestDispatcher("login.jsp").forward(request, response);
 			break;
+		
+		
+		case "createSubtask":
+//			Task.createSubTask(request.getParameter("assignedTo"),
+//				request.getParameter("title"),
+//				request.getParameter("deadline"),
+//				Integer.parseInt(request.getParameter("supertask")),
+//				Integer.parseInt(request.getParameter("assigner_id")));
+			System.out.println(request.getParameter("assignedTo"));
+			break;
+		
+		
+		case "extendDeadline":
+			
+			break;
+		
+		case "createTask":
+			
+			break;
+			
+		case "addUser":
+			break;
+			
+		case "deleteUser":
+			break;
+			
+		case "makeTeam": 
+			break;
+		
+		case "changeTeamLeader": 
+			break;
+		
+		case "deleteTeam": 
+			break;
+		
+		case "addMemberToTeam": 
+			break;	
+		
+		
+		
+		
 		}
-
 	}
 
 	/**

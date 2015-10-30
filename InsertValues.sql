@@ -42,15 +42,15 @@ insert into teamAssign values(2,8);
 insert into teamAssign values(2,9);
 
 
-insert into tasks values(  0, 0, 0, NULL, 'Admin wala Task', 'The main task', '1999-01-08 04:05:06',NULL, '0', 'none' );
-insert into tasks values(  1, 0, 0, 0, 'Research Task', 'The research part of the job', '1999-01-08 04:05:06',NULL, '0', 'none' );
-insert into tasks values(  2, 0, 0, 0, 'Development Task', 'The dev part of the job', '1999-01-08 04:05:06',NULL, '0', 'none' );
+insert into tasks values(  0, 0, 0, NULL, 'Admin wala Task', 'The main task', '1999-01-08',NULL, '0', 'none' );
+insert into tasks values(  1, 0, 0, 0, 'Research Task', 'The research part of the job', '1999-01-08',NULL, '0', 'none' );
+insert into tasks values(  2, 0, 0, 0, 'Development Task', 'The dev part of the job', '1999-01-08',NULL, '0', 'none' );
 
-insert into tasks values(  3, 1, 1, 1, 'Research Sub Task 1', 'The dev part of the job', '1999-01-08 04:05:06',NULL, '1', 'none' );
-insert into tasks values(  4, 1, 1, 1, 'Research Sub Task 2', 'The dev part of the job', '1999-01-08 04:05:06',NULL, '0', 'none' );
+insert into tasks values(  3, 1, 1, 1, 'Research Sub Task 1', 'The dev part of the job', '1999-01-08',NULL, '1', 'none' );
+insert into tasks values(  4, 1, 1, 1, 'Research Sub Task 2', 'The dev part of the job', '1999-01-08',NULL, '0', 'none' );
 
-insert into tasks values(  5, 2, 2, 2, 'Dev Sub Task 1', 'The dev part of the job', '1999-01-08 04:05:06',NULL, '1', 'none' );
-insert into tasks values(  6, 2, 2, 2, 'Dev Sub Task 2', 'The dev part of the job', '1999-01-08 04:05:06',NULL, '0', 'none' );
+insert into tasks values(  5, 2, 2, 2, 'Dev Sub Task 1', 'The dev part of the job', '1999-01-08',NULL, '1', 'none' );
+insert into tasks values(  6, 2, 2, 2, 'Dev Sub Task 2', 'The dev part of the job', '1999-01-08',NULL, '0', 'none' );
 
 insert into taskAssign values(0,0);
 insert into taskAssign values(1,1);

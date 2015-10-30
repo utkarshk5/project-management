@@ -45,7 +45,7 @@ CREATE TABLE tasks
  supertask   INTEGER,
  title       VARCHAR(30),
  detailed_desc VARCHAR(200),
- deadline    timestamp not null,
+ deadline    DATE not null,
  resource_id VARCHAR(5)[],
  completed  boolean not null,
  remarks    VARCHAR(100),
