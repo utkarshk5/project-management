@@ -26,7 +26,9 @@
 	int id = Integer.parseInt(request.getAttribute("id").toString()),
 		auth = Integer.parseInt(request.getAttribute("auth").toString()),
 		team_id = Integer.parseInt(request.getAttribute("team_id").toString());
-	ResultSet taskRS = Task.getTasks(id);
+
+	ResultSet taskRS = Task.getTasks(id), subtaskRS = Task.getSubtasks(id);
+
 %>
 
 		<div class="container">
@@ -45,14 +47,15 @@
 					  <div class="panel panel-default">
 						<div class="panel-heading" role="tab" id="headingOne">
 						  <h4 class="panel-title">
-							<a role="button" data-toggle="collapse" data-parent="#accordion" href="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
+							<a role="button" data-toggle="collapse" data-parent="#accordion" href="#collapse<%out.print(i);%>" aria-expanded="true" aria-controls="collapse<%out.print(i);%>">
 						<%
+							// TODO jfuzzydate
 							out.print(i + "&emsp;" + taskRS.getString("title") + "&emsp;" + taskRS.getString("deadline") + "&emsp;" + taskRS.getString("task_id"));
-							%>
+						%>
 							</a>
 						  </h4>
 						</div>
-						<div id="collapseOne" class="panel-collapse collapse in" role="tabpanel" aria-labelledby="headingOne">
+						<div id="collapse<%out.print(i);%>" class="panel-collapse collapse in" role="tabpanel" aria-labelledby="heading<%out.print(i);%>">
 						  <div class="panel-body">
 							<form> <label for="this">File upload</label> <input type="file" onchange="this.form.submit()"> </form> <br/>
 							<form> <label for="this">Remarks</label> <input type="text"> <button type="submit" class="btn btn-default">Mark as done</button> </form> <br/>
@@ -63,7 +66,7 @@
 								<li>
 									<form>
 										Select person
-										<select name="person" class="form-control" placeholder="Person">
+										<select multiple name="person" class="form-control" placeholder="Person">
 											<option>Mr A</option>
 											<option>Mr B</option>
 											<option>Mr C</option>
@@ -81,6 +84,35 @@
 <%} %>
 					</div>
 				</div>
+<br/><br/>
+
+				<div class="col-xs-6">
+					<h2> Tasks pending assigned by you! </h2>
+
+					<div class="panel-group" id="accordion2" role="tablist" aria-multiselectable="true">
+	<% for(int i=1; subtaskRS.next(); i++){ %>
+						<div class="panel panel-default">
+							<div class="panel-heading" role="tab" id="headingOn">
+								<h4 class="panel-title">
+								<a role="button" data-toggle="collapse" data-parent="#accordion2" href="#collapse<%out.print(i);%>_" aria-expanded="true" aria-controls="collapse<%out.print(i);%>_">
+						<%
+							out.print(i + "&emsp;" + subtaskRS.getString("title") + "&emsp;" + subtaskRS.getString("deadline") + "&emsp;" + subtaskRS.getString("task_id"));
+						%>
+								</a>
+							  </h4>
+							</div>
+							<div id="collapse<%out.print(i);%>_" class="panel-collapse collapse in" role="tabpanel" aria-labelledby="heading<%out.print(i);%>_">
+								<div class="panel-body">
+									<form> <label for="this">File upload</label> <input type="file" class="btn" onchange="this.form.submit()"> </form>
+									<form> <label for="this">Extend Deadine</label> <input type="date" value="10-19-2015" class="btn" onchange="this.form.submit()"> </form>
+								</div>
+							</div>
+						</div>
+	<% } %>
+					</div>
+				</div>
+
+
 			</div>
 		</div>
 

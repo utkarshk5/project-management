@@ -19,7 +19,21 @@ public class Team {
 			closeConnection(connection);
 		}
 	}
-	
+
+	public static void getTeams(){
+		Connection connection=null;
+		
+		try{
+			connection=getConnection();
+			PreparedStatement pstmt= connection.prepareStatement("select * from teams");
+			pstmt.executeQuery();
+		} catch(SQLException sqle){
+			System.out.println("SQL exception getting all teams");
+		} finally{
+			closeConnection(connection);
+		}
+	}
+
 	public static void ChangeLeader(int teamID, int leader){
 		Connection connection=null;
 		

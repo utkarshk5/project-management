@@ -52,7 +52,7 @@ public class Task {
 			pstmt.setInt(5, assigner_id);
 			pstmt.executeUpdate();
 		} catch(SQLException sqle){
-			System.out.println("SQL exception when creating a new task");
+			System.out.println("SQL exception when creating a new subtask");
 		} finally{
 			closeConnection(connection);
 		}
