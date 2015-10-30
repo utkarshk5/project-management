@@ -35,6 +35,172 @@
 				<div id="legend">
 					<legend class="">Dashboard</legend>
 				</div>
+
+<% if(auth==0){ %>
+				<div class="col-xs-12">
+ 					<ul class="list-inline">
+ 						<li>
+ 							<div class="dropdown">
+								<button class="dropdown-toggle btn btn-default" type="button" data-toggle="dropdown">Create Task
+								<span class="caret"></span></button>
+								<ul class="dropdown-menu" style="padding:10px 20px">
+								<li>
+									<form action="Login">
+									<input name="title" type="text" class="form-control" placeholder="Title"><br/>
+									<input name="description" type="text" class="form-control" placeholder="Description"><br/>
+										Select person
+										<select multiple name="assignedTo" class="form-control">
+										<%
+										ResultSet memberRS = Team.getMembers(0);
+										for(j=1; memberRS.next(); j++){
+											%>
+											<option value="<% out.print(memberRS.getInt("user_id")); %>"><%out.print(memberRS.getString("username") + "&emsp;&lt;" + memberRS.getString("email") + "&gt;"); %></option>
+										<% } %>
+										</select><br/>
+										<input name="deadline" type="date" class="form-control"><br/>
+										<input type="hidden" name="formType" value="createTask">
+										<button type="submit" class="btn btn-default"> Create </button>
+									</form>
+								</li>
+								</ul>
+							</div>
+						</li>
+
+						<li>
+							<div class="dropdown">
+								<button class="dropdown-toggle btn btn-default" type="button" data-toggle="dropdown">Delete User
+								<span class="caret"></span></button>
+								<ul class="dropdown-menu" style="padding:10px 20px">
+								<li>
+									<form action="Login">
+										Select person
+										<select multiple name="assignedTo" class="form-control">
+										<%
+										memberRS = User.getallUsers();
+										for(j=1; memberRS.next(); j++){
+											%>
+											<option value="<% out.print(memberRS.getInt("user_id")); %>"><%out.print(memberRS.getString("username") + "&emsp;&lt;" + memberRS.getString("email") + "&gt;"); %></option>
+										<% } %>
+										</select><br/>
+										<input type="hidden" name="formType" value="deleteUser">
+										<button type="submit" class="btn btn-default"> Delete </button>
+									</form>
+								</li>
+								</ul>
+							</div>
+						</li>
+
+						<li>
+							<div class="dropdown">
+								<button class="dropdown-toggle btn btn-default" type="button" data-toggle="dropdown">Make Team
+								<span class="caret"></span></button>
+								<ul class="dropdown-menu" style="padding:10px 20px">
+								<li>
+									<form action="Login">
+										<input type="text" name="team_name" class="form-control" placeholder="Team name">
+										<input type="hidden" name="formType" value="makeTeam">
+										<button type="submit" class="btn btn-default"> Make </button>
+									</form>
+								</li>
+								</ul>
+							</div>
+						</li>
+
+						<li>
+							<div class="dropdown">
+								<button class="dropdown-toggle btn btn-default" type="button" data-toggle="dropdown">Delete Team
+								<span class="caret"></span></button>
+								<ul class="dropdown-menu" style="padding:10px 20px">
+								<li>
+									<form action="Login">
+										Select team
+										<select multiple name="team_id" class="form-control">
+										<%
+										ResultSet teamRS = Team.getallTeams();
+										for(j=1; teamRS.next(); j++){
+											%>
+											<option value="<% out.print(teamRS.getInt("team_id")); %>"><%out.print(teamRS.getString("team_name")); %></option>
+										<% } %>
+										</select><br/>
+										<input type="hidden" name="formType" value="deleteTeam">
+										<button type="submit" class="btn btn-default"> Delete </button>
+									</form>
+								</li>
+								</ul>
+							</div>
+						</li>
+
+						<li>
+							<div class="dropdown">
+								<button class="dropdown-toggle btn btn-default" type="button" data-toggle="dropdown">Change Team Leader
+								<span class="caret"></span></button>
+								<ul class="dropdown-menu" style="padding:10px 20px">
+								<li>
+									<form action="Login">
+										Select team
+										<select name="team_id" class="form-control">
+										<%
+										teamRS = Team.getallTeams();
+										for(j=1; teamRS.next(); j++){
+											%>
+											<option value="<% out.print(teamRS.getInt("team_id")); %>"><%out.print(teamRS.getString("team_name"));%></option>
+										<% } %>
+										</select><br/>
+
+										Select leader
+										<select multiple name="leader_id" class="form-control">
+										<%
+										memberRS = User.getallUsers();
+										for(j=1; memberRS.next(); j++){
+											%>
+											<option value="user<% out.print(memberRS.getInt("user_id")); %>"><%out.print(memberRS.getString("username") + "&emsp;&lt;" + memberRS.getString("email") + "&gt;"); %></option>
+										<% } %>
+										</select><br/>
+										<input type="hidden" name="formType" value="changeTeamLeader">
+										<button type="submit" class="btn btn-default"> Delete </button>
+									</form>
+								</li>
+								</ul>
+							</div>
+						</li>
+
+						<li>
+							<div class="dropdown">
+								<button class="dropdown-toggle btn btn-default" type="button" data-toggle="dropdown">Add to Team
+								<span class="caret"></span></button>
+								<ul class="dropdown-menu" style="padding:10px 20px">
+								<li>
+									<form action="Login">
+										Select team
+										<select name="team_id" class="form-control">
+										<%
+										teamRS = Team.getallTeams();
+										for(j=1; teamRS.next(); j++){
+											%>
+											<option value="<% out.print(teamRS.getInt("team_id")); %>"><%out.print(teamRS.getString("team_name"));%></option>
+										<% } %>
+										</select><br/>
+
+										Select user
+										<select multiple name="user_id" class="form-control">
+										<%
+										memberRS = User.getallUsers();
+										for(j=1; memberRS.next(); j++){
+											%>
+											<option value="user<% out.print(memberRS.getInt("user_id")); %>"><%out.print(memberRS.getString("username") + "&emsp;&lt;" + memberRS.getString("email") + "&gt;"); %></option>
+										<% } %>
+										</select><br/>
+										<input type="hidden" name="formType" value="changeTeamLeader">
+										<button type="submit" class="btn btn-default"> Delete </button>
+									</form>
+								</li>
+								</ul>
+							</div>
+						</li>
+					</ul>
+				</div>
+<br/><br/>
+<% } %>
 				<div class="col-xs-6">
 					<h2> Tasks pending for you! </h2>
 
@@ -56,7 +222,7 @@
 						</div>
 						<div id="collapse<%out.print(i);%>" class="panel-collapse collapse in" role="tabpanel" aria-labelledby="heading<%out.print(i);%>">
 						  <div class="panel-body">
-							<form> <label for="this">File upload</label>
+							<form action="Login"> <label for="this">File upload</label>
 								<input type="file" onchange="this.form.submit()">
 								<input type="hidden" name="formType" value="fileUpload">
 								<input type="hidden" name="task_id" value="<%out.print(taskRS.getInt("task_id"));%>">
@@ -67,13 +233,13 @@
 								<input type="hidden" name="task_id" value="<%out.print(taskRS.getInt("task_id"));%>">
 							</form> <br/>
 							<div class="dropdown">
-							  <button class="dropdown-toggle" type="button" data-toggle="dropdown">Add a sub-task
+							  <button class="dropdown-toggle" type="button" data-toggle="dropdown">Add a subtask
 							  <span class="caret"></span></button>
 							  <ul class="dropdown-menu" style="padding:10px 20px">
 								<li>
 									<form id="createSubTask">
 										Select person
-										<select multiple name="assignedTo" class="form-control" placeholder="Person">
+										<select multiple name="assignedTo" class="form-control">
 										<%
 										ResultSet memberRS = Team.getMembers(taskRS.getInt("team_id"));
 										for(j=1; memberRS.next(); j++){
@@ -128,61 +294,7 @@
 					</div>
 				</div>
 
-				<div class="col-xs-12">
-							<div class="dropup">
-								<button class="dropdown-toggle btn btn-default" type="button" data-toggle="dropdown">Create Task
-								<span class="caret"></span></button>
-								<input name="title" type="text" class="form-control" placeholder="Title"><br/>
-								<input name="description" type="text" class="form-control" placeholder="Description"><br/>
-								<ul class="dropdown-menu" style="padding:10px 20px">
-								<li>
-									<form id="createTask">
-										Select person
-										<select multiple name="assignedTo" class="form-control" placeholder="Assign To">
-										<%
-										ResultSet memberRS = Team.getMembers(0);
-										for(j=1; memberRS.next(); j++){
-											%>
-											<option value="user<% out.print(memberRS.getInt("user_id")); %>"><%out.print(memberRS.getString("username") + "&emsp;&lt;" + memberRS.getString("email") + "&gt;"); %></option>
-										<% } %>
-										</select><br/>
-										<input name="deadline" type="date" class="form-control"><br/>
-										<button type="submit" class="btn btn-default"> Create </button>
-									</form>
-								</li>
-								</ul>
-							</div>
 
-							<div class="dropup">
-								<button class="dropdown-toggle btn btn-default" type="button" data-toggle="dropdown">Delete User
-								<span class="caret"></span></button>
-								<ul class="dropdown-menu" style="padding:10px 20px">
-								<li>
-									<form id="deleteUser">
-										Select person
-										<select multiple name="assignedTo" class="form-control" placeholder="Assign To">
-										<%
-										memberRS = Team.getMembers(0);
-										for(j=1; memberRS.next(); j++){
-											%>
-											<option value="user<% out.print(memberRS.getInt("user_id")); %>"><%out.print(memberRS.getString("username") + "&emsp;&lt;" + memberRS.getString("email") + "&gt;"); %></option>
-										<% } %>
-										</select><br/>
-										<input name="deadline" type="date" class="form-control"><br/>
-										<button type="submit" class="btn btn-default"> Create </button>
-									</form>
-								</li>
-								</ul>
-							</div>
-
-<!--
-					<button class="btn btn-default" href="">Delete User</button>
-					<button class="btn btn-default" href="">Make Team</button>
-					<button class="btn btn-default" href="">Change Team Leader</button>
-					<button class="btn btn-default" href="">Delete Team</button>
-					<button class="btn btn-default" href="">Add Member to Team</button> -->
-
-				</div>
 			</div>
 		</div>
 

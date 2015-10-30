@@ -9,7 +9,7 @@ public class User {
 		
 		try{
 			connection=getConnection();
-			PreparedStatement pstmt= connection.prepareStatement("insert into users (full_name, email, password, phone, address) values (?,?,?,?,?)");
+			PreparedStatement pstmt= connection.prepareStatement("insert into users (username, email, password, phone, address, clearance) values (?,?,?,?,?,1)");
 			pstmt.setString(1, name);
 			pstmt.setString(2, email);
 			pstmt.setString(3, password);
@@ -17,18 +17,34 @@ public class User {
 			pstmt.setString(5, address);
 			pstmt.executeUpdate();
 			PreparedStatement pstmt1= connection.prepareStatement("select max(user_id) from users");
-			ResultSet rs1 = pstmt1.executeQuery();
-			rs1.next();
-			int user_id = rs1.getInt(1);
+			ResultSet rs = pstmt1.executeQuery();
+			rs.next();
+			int user_id = rs.getInt(1);
 			PreparedStatement pstmt2= connection.prepareStatement("insert into teamAssign (user_id, team_id) values (?,?)");
 			pstmt2.setInt(1, user_id);
 			pstmt2.setInt(2, team_id);
 			pstmt2.executeUpdate();
+			
 		} catch(SQLException sqle){
 			System.out.println("SQL exception when adding user");
 		} finally{
 			closeConnection(connection);
 		}
+	}
+
+	public static ResultSet getallUsers(){
+		Connection connection=null;
+		
+		try{
+			connection=getConnection();
+			PreparedStatement pstmt= connection.prepareStatement("select * from users");
+			return pstmt.executeQuery();
+		} catch(SQLException sqle){
+			System.out.println("SQL exception when fetching users");
+		} finally{
+			closeConnection(connection);
+		}
+		return null;
 	}
 
 	public static void deleteUser(int id){

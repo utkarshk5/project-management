@@ -31,6 +31,7 @@
 				      </div><br/>
 				      <span class="error" style="color:red">${error}</span><br>
 				      <!-- Button -->
+					  <input type="hidden" name="formType" value="login">
 				      <div class="controls">
 				        <button class="btn btn-success">Login</button>
 				      </div>
