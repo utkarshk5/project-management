@@ -94,13 +94,14 @@ public class Login extends HttpServlet {
 			break;
 		
 		case "deleteTeam": 
+			User.deleteUser(Integer.parseInt(request.getParameter("id")));
 			break;
 		
 		case "addMemberToTeam": 
 			break;	
 			
 		default:
-			System.out.println("in default");
+
 			String email1 = request.getParameter("email"); 
 			String password1 = request.getParameter("password");
 			int auth1=0; int id1 = User.auth(email1, password1, auth1); 
