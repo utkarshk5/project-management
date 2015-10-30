@@ -1,6 +1,7 @@
 package database;
 
 import java.io.IOException;
+import java.sql.Date;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -27,11 +28,18 @@ public class Login extends HttpServlet {
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+	
+		System.out.println("request not done");		
+		String formType = null;
+		if(request.getParameterMap().containsKey("formType")){
+			formType=request.getParameter("formType");
+		}
+		else formType="login";
+		System.out.println("request done");
 		
-		String formType = request.getParameter("formType");
-		
-		switch("login"){
+		switch(formType){
 		case "login":
+				System.out.println("in login");
 				String email = request.getParameter("email"); 
 				String password = request.getParameter("password");
 				int auth=0; int id = User.auth(email, password, auth); 
@@ -46,12 +54,15 @@ public class Login extends HttpServlet {
 				}
 			break;
 			
-		case "signup":
-				User.addUser(request.getParameter("name"), request.getParameter("email"),
-				request.getParameter("password"), request.getParameter("phone"),
-				request.getParameter("address"), Integer.parseInt(request.getParameter("team_id")));
-				request.setAttribute("error", "Registered successfully! Please login");
-				request.getRequestDispatcher("login.jsp").forward(request, response);
+		case "addUser":
+			System.out.println("in case addUser");
+			System.out.println(request.getParameter("team_id"));
+				User.addUser(
+						request.getParameter("name"), request.getParameter("email"),
+						request.getParameter("password"), request.getParameter("phone"),
+						request.getParameter("address"), Integer.parseInt(request.getParameter("team_id")));
+						request.setAttribute("error", "Registered successfully! Please login");
+						request.getRequestDispatcher("login.jsp").forward(request, response);
 			break;
 		
 		
@@ -66,16 +77,15 @@ public class Login extends HttpServlet {
 		
 		
 		case "extendDeadline":
-			
+			Task.extendDeadline(
+					Integer.parseInt(request.getParameter("id")),
+					Date.valueOf(request.getParameter("date")) );
 			break;
 		
 		case "createTask":
 			
 			break;
-			
-		case "addUser":
-			break;
-			
+
 		case "deleteUser":
 			break;
 			
@@ -91,7 +101,21 @@ public class Login extends HttpServlet {
 		case "addMemberToTeam": 
 			break;	
 		
-		
+		default:
+			System.out.println("in default");
+			String email1 = request.getParameter("email"); 
+			String password1 = request.getParameter("password");
+			int auth1=0; int id1 = User.auth(email1, password1, auth1); 
+			if(id1==-1) {
+				request.setAttribute("error", "*Incorrect Username or Password");
+				request.getRequestDispatcher("login.jsp").forward(request, response);
+			}
+			else {
+				request.setAttribute("id", id1);
+				request.setAttribute("auth", auth1);
+				request.getRequestDispatcher("dashboard.jsp").forward(request, response);
+			}
+		break;
 		
 		
 		}
