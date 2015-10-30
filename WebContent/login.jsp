@@ -13,6 +13,9 @@
   <body>
 	<div class="container">
 	    <div class="row">
+			<div id="legend">
+				<legend class="">Login</legend>
+			</div>
 			<div class="span12">
 				<form class="form-horizontal" action='Login' method="POST">
 				  <fieldset>
@@ -36,7 +39,7 @@
 				      </div>
 				  </fieldset>
 				</form><br/>
-			<a> First time here? Register </a><br/><br/>
+			<a href="signup.jsp"> First time here? Register </a><br/><br/>
 			<a> Forgot password? </a>
 			</div>
 		</div>
