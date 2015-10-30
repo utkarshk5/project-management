@@ -24,9 +24,9 @@
 
 <%
 	int id = Integer.parseInt(request.getAttribute("id").toString()),
-		auth = Integer.parseInt(request.getAttribute("auth").toString()),
-		team_id = Integer.parseInt(request.getAttribute("team_id").toString());
-	ResultSet taskRS = Task.getTasks(id);
+		auth = Integer.parseInt(request.getAttribute("auth").toString());
+	ResultSet taskRS = Task.getTasks(id,false);
+	int j;
 %>
 
 		<div class="container">
@@ -61,13 +61,15 @@
 							  <span class="caret"></span></button>
 							  <ul class="dropdown-menu" style="padding:10px 20px">
 								<li>
-									<form>
+									<form id="createSubTask<% out.print(taskRS.getInt("task_id")); %>">
 										Select person
 										<select name="person" class="form-control" placeholder="Person">
-											<option>Mr A</option>
-											<option>Mr B</option>
-											<option>Mr C</option>
-											<option>Mr D</option>
+										<%	
+										ResultSet memberRS = Team.getMembers(taskRS.getInt("team_id"));
+										for(j=1; memberRS.next(); j++){
+											%>
+											<option value="user<% out.print(memberRS.getInt("user_id")); %>"><%out.print(memberRS.getString("username") + "&emsp;&lt;" + memberRS.getString("email") + "&gt;"); %></option>
+										<% } %>
 										</select><br/>
 										<input name="description" type="text" class="form-control" placeholder="Description"><br/>
 										<button type="submit" class="btn btn-default"> Create sub-task</button>

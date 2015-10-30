@@ -9,14 +9,21 @@ public class User {
 		
 		try{
 			connection=getConnection();
-			PreparedStatement pstmt= connection.prepareStatement("insert into users (full_name, email, password, phone, address, team_id) values (?,?,?,?,?,?)");
+			PreparedStatement pstmt= connection.prepareStatement("insert into users (full_name, email, password, phone, address) values (?,?,?,?,?)");
 			pstmt.setString(1, name);
 			pstmt.setString(2, email);
 			pstmt.setString(3, password);
 			pstmt.setString(4, phone);
 			pstmt.setString(5, address);
-			pstmt.setInt(6, team_id);
 			pstmt.executeUpdate();
+			PreparedStatement pstmt1= connection.prepareStatement("select max(task_id) from tasks");
+			ResultSet rs1 = pstmt1.executeQuery();
+			rs1.next();
+			int user_id = rs1.getInt(1);
+			PreparedStatement pstmt2= connection.prepareStatement("insert into teamAssign (user_id, team_id) values (?,?)");
+			pstmt2.setInt(1, user_id);
+			pstmt2.setInt(2, team_id);
+			pstmt2.executeUpdate();
 		} catch(SQLException sqle){
 			System.out.println("SQL exception when adding user");
 		} finally{
@@ -38,60 +45,21 @@ public class User {
 			closeConnection(connection);
 		}
 	}
-
-	public static void assignTeam(int id, int teamID){
-		Connection connection=null;
-		
-		try{
-			connection=getConnection();
-			PreparedStatement pstmt= connection.prepareStatement("update users set team_id=? where user_id=?");
-			pstmt.setInt(1, teamID);
-			pstmt.setInt(2, id);
-			pstmt.executeUpdate();
-		} catch(SQLException sqle){
-			System.out.println("SQL exception when assigning team to a user");
-		} finally{
-			closeConnection(connection);
-		}
-
-	}
 	
-	public static int auth(String email, String pass, int auth, int team_id){
+	public static int auth(String email, String pass, int auth){
 		Connection connection=null;
 		
 		try{
 			connection=getConnection();
-			PreparedStatement pstmt= connection.prepareStatement("select user_id, clearance, team_id from users where email=? and password=?");
+			PreparedStatement pstmt= connection.prepareStatement("select user_id, clearance from users where email=? and password=?");
 			pstmt.setString(1, email);
 			pstmt.setString(2, pass);
 			ResultSet rs= pstmt.executeQuery();
 			if(!rs.next())	return -1;
-			
 			auth = rs.getInt(2);
-			team_id = rs.getInt(3);
-			System.out.println(auth);
-			System.out.println(rs.getInt(1));
 			return rs.getInt(1);
 		} catch(SQLException sqle){
 			System.out.println("SQL exception when trying to authenticate");
-		} finally{
-			closeConnection(connection);
-		}
-		return -1;
-	}
-	
-	public static int getLeader(int id){
-		Connection connection=null;
-		
-		try{
-			connection=getConnection();
-			PreparedStatement pstmt= connection.prepareStatement("select leader_id from users natural join teams where user_id=?");
-			pstmt.setInt(1, id);
-			ResultSet rs = pstmt.executeQuery();
-			if(!rs.next()) return -1;
-			else return rs.getInt(1);
-		} catch(SQLException sqle){
-			System.out.println("SQL exception when getting leader for the user");
 		} finally{
 			closeConnection(connection);
 		}
