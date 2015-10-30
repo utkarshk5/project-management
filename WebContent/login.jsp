@@ -19,9 +19,6 @@
 			<div class="span12">
 				<form class="form-horizontal" action='Login' method="POST">
 				  <fieldset>
-				    <div id="legend">
-				      <legend class="">Login</legend>
-				    </div>
 				      <!-- Username -->
 				      <label class="control-label" for="email">Email</label>
 				      <div class="controls">
