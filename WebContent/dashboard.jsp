@@ -152,29 +152,6 @@
 								</li>
 								</ul>
 							</div>
-
-							<div class="dropup">
-								<button class="dropdown-toggle btn btn-default" type="button" data-toggle="dropdown">Delete User
-								<span class="caret"></span></button>
-								<ul class="dropdown-menu" style="padding:10px 20px">
-								<li>
-									<form id="deleteUser">
-										Select person
-										<select multiple name="assignedTo" class="form-control" placeholder="Assign To">
-										<%
-										ResultSet memberRS = Team.getMembers(0);
-										for(j=1; memberRS.next(); j++){
-											%>
-											<option value="user<% out.print(memberRS.getInt("user_id")); %>"><%out.print(memberRS.getString("username") + "&emsp;&lt;" + memberRS.getString("email") + "&gt;"); %></option>
-										<% } %>
-										</select><br/>
-										<input name="deadline" type="date" class="form-control"><br/>
-										<button type="submit" class="btn btn-default"> Create </button>
-									</form>
-								</li>
-								</ul>
-							</div>
-
 <!--
 					<button class="btn btn-default" href="">Delete User</button>
 					<button class="btn btn-default" href="">Make Team</button>

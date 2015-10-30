@@ -15,7 +15,7 @@ public class User {
 			pstmt.setString(3, password);
 			pstmt.setString(4, phone);
 			pstmt.setString(5, address);
-			pstmt.executeUpdate();System.out.println("adding user");
+			pstmt.executeUpdate();
 			PreparedStatement pstmt1= connection.prepareStatement("select max(user_id) from users");
 			ResultSet rs = pstmt1.executeQuery();
 			rs.next();
