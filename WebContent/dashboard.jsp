@@ -26,7 +26,7 @@
 	int id = Integer.parseInt(request.getSession().getAttribute("user").toString());
 	int auth = User.getClearance(id);
 	ResultSet taskRS = Task.getTasks(id,false),
-		subtaskRS = Task.getSubtasks(id);
+		subtaskRS = Task.getSubtasks(id,false);
 	int j;
 %>
 
@@ -243,7 +243,7 @@
 							</form> <br/>
 							<form action="Submit" method="POST">
 								<label for="this">Remarks</label>
-								<input type="text"> <button type="submit" class="btn btn-default">Mark as done</button>
+								<input name="remarks" type="text"> <button type="submit" class="btn btn-default">Mark as done</button>
 								<input type="hidden" name="formType" value="markAsDone">
 								<input type="hidden" name="task_id" value="<%out.print(taskRS.getInt("task_id"));%>">
 							</form> <br/>

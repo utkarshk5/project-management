@@ -80,7 +80,12 @@ public class Submit extends HttpServlet {
 				Task.extendDeadline(
 						Integer.parseInt(request.getParameter("task_id")),
 						Date.valueOf(request.getParameter("deadline")) );
-				System.out.println("done0");
+				request.getRequestDispatcher("Login").forward(request, response);
+				return;
+			
+			case "markAsDone":
+				Task.markAsDone(Integer.parseInt(request.getParameter("task_id")),
+						request.getParameter("remarks"));
 				request.getRequestDispatcher("Login").forward(request, response);
 				return;
 			

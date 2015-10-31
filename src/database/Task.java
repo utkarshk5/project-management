@@ -23,13 +23,14 @@ public class Task {
 		return rs;
 	}
 	
-	public static ResultSet getSubtasks(int id){
+	public static ResultSet getSubtasks(int id, boolean comp){
 		Connection connection=null;
 		ResultSet rs = null;
 		try{
 			connection=getConnection();
-			PreparedStatement pstmt= connection.prepareStatement("select * from tasks where assigned_by=?");
+			PreparedStatement pstmt= connection.prepareStatement("select * from tasks where assigned_by=? and completed=?");
 			pstmt.setInt(1, id);
+			pstmt.setBoolean(2, comp);
 			rs= pstmt.executeQuery();
 			return rs;
 		} catch(SQLException sqle){
