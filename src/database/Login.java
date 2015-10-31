@@ -2,6 +2,9 @@ package database;
 
 import java.io.IOException;
 import java.sql.Date;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -65,12 +68,26 @@ public class Login extends HttpServlet {
 		
 		
 		case "createSubtask":
-//			Task.createSubTask(request.getParameter("assignedTo"),
-//				request.getParameter("title"),
-//				request.getParameter("deadline"),
-//				Integer.parseInt(request.getParameter("supertask")),
-//				Integer.parseInt(request.getParameter("assigner_id")));
-			System.out.println(request.getParameter("assignedTo"));
+				String[] temp = request.getParameterValues("assignedTo");
+				ArrayList<Integer> userList = new ArrayList<Integer>();
+				for(int i=0;i<temp.length;++i)
+				{
+					userList.add(Integer.parseInt(temp[i]));
+				}
+				System.out.println(request.getParameter("deadline"));
+			java.util.Date date = null;
+			try {
+				date = new SimpleDateFormat("yyyy-MM-dd").parse(request.getParameter("deadline"));
+			} catch (ParseException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+				Task.createSubTask(userList,
+					request.getParameter("title"),
+					date,
+					Integer.parseInt(request.getParameter("task_id")),
+					Integer.parseInt(request.getParameter("assigner_id")));
+				request.getRequestDispatcher("dashboard.jsp").forward(request, response);
 			break;
 		
 		

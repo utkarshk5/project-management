@@ -88,7 +88,7 @@ public class Task {
 		}
 	}
 	
-	public static void createSubTask(ArrayList<Integer> id, String title, Date deadline, int supertask, int assigner_id){
+	public static void createSubTask(ArrayList<Integer> id, String title, java.util.Date date, int supertask, int assigner_id){
 		Connection connection=null;
 
 		try{
@@ -97,7 +97,7 @@ public class Task {
 			int team_id = getTeamIDforTask(supertask);
 			PreparedStatement pstmt= connection.prepareStatement("insert into tasks (title, deadline, supertask, assigned_by, team_id) values (?,?,?,?,?)");
 			pstmt.setString(1, title);
-			pstmt.setDate(2, deadline);
+			pstmt.setDate(2, new java.sql.Date(date.getTime()));
 			pstmt.setInt(3, supertask);
 			pstmt.setInt(4, assigner_id);
 			pstmt.setInt(5, team_id);

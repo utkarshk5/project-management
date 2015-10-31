@@ -98,6 +98,15 @@
 								<li>
 									<form action="Login">
 										<input type="text" name="team_name" class="form-control" placeholder="Team name">
+											Select person
+										<select name="leader_id" class="form-control">
+										<%
+										memberRS = User.getallUsers();
+										for(j=1; memberRS.next(); j++){
+											%>
+											<option value="<% out.print(memberRS.getInt("user_id")); %>"><%out.print(memberRS.getString("username") + "&emsp;&lt;" + memberRS.getString("email") + "&gt;"); %></option>
+										<% } %>
+										</select><br/>
 										<input type="hidden" name="formType" value="makeTeam">
 										<button type="submit" class="btn btn-default"> Make </button>
 									</form>
@@ -244,11 +253,12 @@
 										ResultSet memberRS = Team.getMembers(taskRS.getInt("team_id"));
 										for(j=1; memberRS.next(); j++){
 											%>
-											<option value="user<% out.print(memberRS.getInt("user_id")); %>"><%out.print(memberRS.getString("username") + "&emsp;&lt;" + memberRS.getString("email") + "&gt;"); %></option>
+											<option value="<% out.print(memberRS.getInt("user_id")); %>"><%out.print(memberRS.getString("username") + "&emsp;&lt;" + memberRS.getString("email") + "&gt;"); %></option>
 										<% } %>
 										</select><br/>
 										<input name="title" type="text" class="form-control" placeholder="Title"><br/>
 										<input name="description" type="text" class="form-control" placeholder="Description"><br/>
+										Set Deadline
 										<input name="deadline" type="date" class="form-control"><br/>
 										<input type="hidden" name="formType" value="createSubtask">
 										<input type="hidden" name="task_id" value="<% out.print(taskRS.getInt("task_id")); %>">
