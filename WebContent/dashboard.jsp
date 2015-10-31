@@ -23,8 +23,7 @@
 	<body>
 
 <%
-	int id = Integer.parseInt(request.getAttribute("id").toString()),
-		auth = Integer.parseInt(request.getAttribute("auth").toString());
+	int id = Integer.parseInt(request.getSession().getAttribute("user").toString()), auth=0;
 	ResultSet taskRS = Task.getTasks(id,false),
 		subtaskRS = Task.getSubtasks(id);
 	int j;
@@ -34,6 +33,10 @@
 			<div class="row">
 				<div id="legend">
 					<legend class="">Dashboard</legend>
+					<form role="form" action="Login" method="POST">
+						<button type="submit" class="btn btn-primary" style="float:right">Logout</button>
+						<input type="hidden" name="formType" value="logout">
+					</form>
 				</div>
 
 <% if(auth==0){ %>
@@ -45,7 +48,7 @@
 								<span class="caret"></span></button>
 								<ul class="dropdown-menu" style="padding:10px 20px">
 								<li>
-									<form action="Login">
+									<form action="Submit" method="POST">
 									<input name="title" type="text" class="form-control" placeholder="Title"><br/>
 									<input name="description" type="text" class="form-control" placeholder="Description"><br/>
 										Select person
@@ -72,7 +75,7 @@
 								<span class="caret"></span></button>
 								<ul class="dropdown-menu" style="padding:10px 20px">
 								<li>
-									<form action="Login">
+									<form action="Submit" method="POST">
 										Select person
 										<select multiple name="assignedTo" class="form-control">
 										<%
@@ -96,8 +99,17 @@
 								<span class="caret"></span></button>
 								<ul class="dropdown-menu" style="padding:10px 20px">
 								<li>
-									<form action="Login">
+									<form action="Submit" method="POST">
 										<input type="text" name="team_name" class="form-control" placeholder="Team name">
+										Select person
+										<select name="leader_id" class="form-control">
+										<%
+										memberRS = User.getallUsers();
+										for(j=1; memberRS.next(); j++){
+											%>
+											<option value="<% out.print(memberRS.getInt("user_id")); %>"><%out.print(memberRS.getString("username") + "&emsp;&lt;" + memberRS.getString("email") + "&gt;"); %></option>
+										<% } %>
+										</select><br/>
 										<input type="hidden" name="formType" value="makeTeam">
 										<button type="submit" class="btn btn-default"> Make </button>
 									</form>
@@ -112,7 +124,7 @@
 								<span class="caret"></span></button>
 								<ul class="dropdown-menu" style="padding:10px 20px">
 								<li>
-									<form action="Login">
+									<form action="Submit" method="POST">
 										Select team
 										<select multiple name="team_id" class="form-control">
 										<%
@@ -136,7 +148,7 @@
 								<span class="caret"></span></button>
 								<ul class="dropdown-menu" style="padding:10px 20px">
 								<li>
-									<form action="Login">
+									<form action="Submit" method="POST">
 										Select team
 										<select name="team_id" class="form-control">
 										<%
@@ -170,7 +182,7 @@
 								<span class="caret"></span></button>
 								<ul class="dropdown-menu" style="padding:10px 20px">
 								<li>
-									<form action="Login">
+									<form action="Submit" method="POST">
 										Select team
 										<select name="team_id" class="form-control">
 										<%
@@ -212,7 +224,7 @@
 					  <div class="panel panel-default">
 						<div class="panel-heading" role="tab" id="heading<%out.print(i);%>">
 						  <h4 class="panel-title">
-							<a role="button" data-toggle="collapse" data-parent="#accordion" href="#collapse<%out.print(i);%>" aria-expanded="true" aria-controls="collapse<%out.print(i);%>">
+							<a class="collapsed" role="button" data-toggle="collapse" data-parent="#accordion" href="#collapse<%out.print(i);%>" aria-expanded="true" aria-controls="collapse<%out.print(i);%>">
 						<%
 							// TODO jfuzzydate
 							out.print(i + "&emsp;" + taskRS.getString("title") + "&emsp;" + taskRS.getString("deadline") + "&emsp;" + taskRS.getString("task_id"));
@@ -222,12 +234,14 @@
 						</div>
 						<div id="collapse<%out.print(i);%>" class="panel-collapse collapse in" role="tabpanel" aria-labelledby="heading<%out.print(i);%>">
 						  <div class="panel-body">
-							<form action="Login"> <label for="this">File upload</label>
+							<form action="Submit" method="POST">
+								<label for="this">File upload</label>
 								<input type="file" onchange="this.form.submit()">
 								<input type="hidden" name="formType" value="fileUpload">
 								<input type="hidden" name="task_id" value="<%out.print(taskRS.getInt("task_id"));%>">
 							</form> <br/>
-							<form> <label for="this">Remarks</label>
+							<form action="Submit" method="POST">
+								<label for="this">Remarks</label>
 								<input type="text"> <button type="submit" class="btn btn-default">Mark as done</button>
 								<input type="hidden" name="formType" value="markAsDone">
 								<input type="hidden" name="task_id" value="<%out.print(taskRS.getInt("task_id"));%>">
@@ -237,7 +251,7 @@
 							  <span class="caret"></span></button>
 							  <ul class="dropdown-menu" style="padding:10px 20px">
 								<li>
-									<form id="createSubTask">
+									<form action="Submit" method="POST">
 										Select person
 										<select multiple name="assignedTo" class="form-control">
 										<%
@@ -273,7 +287,7 @@
 						<div class="panel panel-default">
 							<div class="panel-heading" role="tab" id="heading<%out.print(i);%>_">
 								<h4 class="panel-title">
-								<a role="button" data-toggle="collapse" data-parent="#accordion2" href="#collapse<%out.print(i);%>_" aria-expanded="true" aria-controls="collapse<%out.print(i);%>_">
+								<a class="collapsed" role="button" data-toggle="collapse" data-parent="#accordion2" href="#collapse<%out.print(i);%>_" aria-expanded="false" aria-controls="collapse<%out.print(i);%>_">
 						<%
 							out.print(i + "&emsp;" + subtaskRS.getString("title") + "&emsp;" + subtaskRS.getString("deadline") + "&emsp;" + subtaskRS.getString("task_id"));
 						%>
@@ -282,7 +296,8 @@
 							</div>
 							<div id="collapse<%out.print(i);%>_" class="panel-collapse collapse in" role="tabpanel" aria-labelledby="heading<%out.print(i);%>_">
 								<div class="panel-body">
-									<form> <label for="this">File upload</label>
+									<form action="Submit" method="POST">
+										<label for="this">File upload</label>
 										<input type="file" class="btn" onchange="this.form.submit()"> </form>
 										<input type="hidden" name="formType" value="fileUpload">
 										<input type="hidden" name="task_id" value="<% out.print(subtaskRS.getInt("task_id")); %>">

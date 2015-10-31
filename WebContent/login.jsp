@@ -30,6 +30,7 @@
 				        <input type="password" id="password" name="password" placeholder="">
 				      </div><br/>
 				      <span class="error" style="color:red">${error}</span><br>
+			
 				      <!-- Button -->
 					  <input type="hidden" name="formType" value="login">
 				      <div class="controls">
