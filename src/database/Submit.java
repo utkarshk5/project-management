@@ -2,8 +2,6 @@ package database;
 
 import java.io.IOException;
 import java.sql.Date;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 
 import javax.servlet.ServletException;
@@ -68,16 +66,9 @@ public class Submit extends HttpServlet {
 				{
 					userList.add(Integer.parseInt(temp[i]));
 				}
-				java.util.Date date = null;
-				try {
-					date = new SimpleDateFormat("yyyy-MM-dd").parse(request.getParameter("deadline"));
-				} catch (ParseException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-				}
 				Task.createSubTask(userList,
 					request.getParameter("title"),
-					date,
+					Date.valueOf(request.getParameter("deadline")),
 					Integer.parseInt(request.getParameter("task_id")),
 					Integer.parseInt(session.getAttribute("user").toString()),
 					request.getParameter("description"));
@@ -87,9 +78,11 @@ public class Submit extends HttpServlet {
 			
 			case "extendDeadline":
 				Task.extendDeadline(
-						Integer.parseInt(request.getParameter("id")),
-						Date.valueOf(request.getParameter("date")) );
-				break;
+						Integer.parseInt(request.getParameter("task_id")),
+						Date.valueOf(request.getParameter("deadline")) );
+				System.out.println("done0");
+				request.getRequestDispatcher("Login").forward(request, response);
+				return;
 			
 			case "createTask":
 				

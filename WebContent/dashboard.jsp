@@ -303,7 +303,13 @@
 										<input type="file" class="btn" onchange="this.form.submit()"> </form>
 										<input type="hidden" name="formType" value="fileUpload">
 										<input type="hidden" name="task_id" value="<% out.print(subtaskRS.getInt("task_id")); %>">
-									<form> <label for="this">Extend Deadline</label> <input type="date" value="10-19-2015" class="btn" onchange="this.form.submit()"> </form>
+									<form action="Submit" method="POST"> 
+										<label for="this">Extend Deadline</label> 
+										<input name="deadline" type="date" class="btn"> 
+										<input type="hidden" name="formType" value="extendDeadline"> 
+										<input type="hidden" name="task_id" value="<% out.print(subtaskRS.getInt("task_id")); %>"> 
+										<button type="submit" class="btn btn-default"> Extend</button>
+									</form>
 								</div>
 							</div>
 						</div>
