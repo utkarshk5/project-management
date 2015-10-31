@@ -1,7 +1,6 @@
 package database;
 
 import java.sql.*;
-import java.util.*;
 
 public class User {	
 	public static void addUser(String name, String email, String password, String phone, String address, int team_id){

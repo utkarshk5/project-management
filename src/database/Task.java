@@ -95,7 +95,6 @@ public class Task {
 			//Integrity check for supertask
 			connection=getConnection();
 			int team_id = getTeamIDforTask(supertask);
-			System.out.println("done0 " + new java.sql.Date(date.getTime()));
 			PreparedStatement pstmt= connection.prepareStatement("insert into tasks (title, deadline, supertask, assigned_by, team_id, detailed_desc, completed) values (?,?,?,?,?,?,false)");
 			pstmt.setString(1, title);
 			pstmt.setDate(2, new java.sql.Date(date.getTime()));
@@ -104,7 +103,6 @@ public class Task {
 			pstmt.setInt(5, team_id);
 			pstmt.setString(6, description);
 			pstmt.executeUpdate();
-			System.out.println("done1");
 			PreparedStatement pstmt1= connection.prepareStatement("select max(task_id) from tasks");
 			ResultSet rs1 = pstmt1.executeQuery();
 			rs1.next();

@@ -21,14 +21,14 @@ public class Team {
 		return rs;
 	}
 	
-	public static void makeTeam(String name, int leader){
+	public static void makeTeam(String name, int leader_id){
 		Connection connection=null;
 		
 		try{
 			connection=getConnection();
 			PreparedStatement pstmt= connection.prepareStatement("insert into teams (team_name, leader_id) values (?, ?)");
 			pstmt.setString(1, name);
-			pstmt.setInt(2, leader);
+			pstmt.setInt(2, leader_id);
 			pstmt.executeUpdate();
 		} catch(SQLException sqle){
 			System.out.println("SQL exception creating team");
