@@ -80,6 +80,24 @@ public class User {
 		}
 		return -1;
 	}
+	
+	public static int getClearance(int id){
+		Connection connection=null;
+	
+		try{
+			connection=getConnection();
+			PreparedStatement pstmt= connection.prepareStatement("select clearance from users where user_id=?");
+			pstmt.setInt(1, id);
+			ResultSet rs = pstmt.executeQuery();
+			if(!rs.next()) return -1;
+			return rs.getInt(1);
+		} catch(SQLException sqle){
+			System.out.println("SQL exception when getting user clearance");
+		} finally{
+			closeConnection(connection);
+		}
+		return -1;
+	}
 		
 	static Connection getConnection() {
 		String dbURL = "jdbc:postgresql://10.105.1.12/cs387";

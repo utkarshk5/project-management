@@ -23,7 +23,8 @@
 	<body>
 
 <%
-	int id = Integer.parseInt(request.getSession().getAttribute("user").toString()), auth=0;
+	int id = Integer.parseInt(request.getSession().getAttribute("user").toString());
+	int auth = User.getClearance(id);
 	ResultSet taskRS = Task.getTasks(id,false),
 		subtaskRS = Task.getSubtasks(id);
 	int j;

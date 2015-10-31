@@ -36,7 +36,7 @@ public class Submit extends HttpServlet {
 		System.out.println("entered submit servlet");
 		HttpSession session = request.getSession(false);
 		if(session==null){
-			request.setAttribute("error", "Please log in first");
+			request.setAttribute("error", "Please login to continue");
 			request.getRequestDispatcher("Login").forward(request, response);
 			return;
 		}
@@ -81,7 +81,7 @@ public class Submit extends HttpServlet {
 					Integer.parseInt(request.getParameter("task_id")),
 					Integer.parseInt(session.getAttribute("user").toString()),
 					request.getParameter("description"));
-				request.getRequestDispatcher("dashboard.jsp").forward(request, response);
+				request.getRequestDispatcher("Login").forward(request, response);
 			return;
 			
 			
