@@ -78,7 +78,7 @@
 								<li>
 									<form action="Submit" method="POST">
 										Select person
-										<select multiple name="assignedTo" class="form-control">
+										<select multiple name="userID" class="form-control">
 										<%
 										memberRS = User.getallUsers();
 										for(j=1; memberRS.next(); j++){
@@ -126,7 +126,7 @@
 								<ul class="dropdown-menu" style="padding:10px 20px">
 								<li>
 									<form action="Submit" method="POST">
-										Select team
+										Select teams
 										<select multiple name="team_id" class="form-control">
 										<%
 										ResultSet teamRS = Team.getallTeams();
@@ -166,7 +166,7 @@
 										memberRS = User.getallUsers();
 										for(j=1; memberRS.next(); j++){
 											%>
-											<option value="user<% out.print(memberRS.getInt("user_id")); %>"><%out.print(memberRS.getString("username") + "&emsp;&lt;" + memberRS.getString("email") + "&gt;"); %></option>
+											<option value="<% out.print(memberRS.getInt("user_id")); %>"><%out.print(memberRS.getString("username") + "&emsp;&lt;" + memberRS.getString("email") + "&gt;"); %></option>
 										<% } %>
 										</select><br/>
 										<input type="hidden" name="formType" value="changeTeamLeader">
@@ -184,7 +184,7 @@
 								<ul class="dropdown-menu" style="padding:10px 20px">
 								<li>
 									<form action="Submit" method="POST">
-										Select team
+										Select teams
 										<select name="team_id" class="form-control">
 										<%
 										teamRS = Team.getallTeams();
@@ -200,11 +200,11 @@
 										memberRS = User.getallUsers();
 										for(j=1; memberRS.next(); j++){
 											%>
-											<option value="user<% out.print(memberRS.getInt("user_id")); %>"><%out.print(memberRS.getString("username") + "&emsp;&lt;" + memberRS.getString("email") + "&gt;"); %></option>
+											<option value="<% out.print(memberRS.getInt("user_id")); %>"><%out.print(memberRS.getString("username") + "&emsp;&lt;" + memberRS.getString("email") + "&gt;"); %></option>
 										<% } %>
 										</select><br/>
-										<input type="hidden" name="formType" value="changeTeamLeader">
-										<button type="submit" class="btn btn-default"> Delete </button>
+										<input type="hidden" name="formType" value="addMemberToTeam">
+										<button type="submit" class="btn btn-default"> Add </button>
 									</form>
 								</li>
 								</ul>

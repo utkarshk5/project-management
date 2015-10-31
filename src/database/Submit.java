@@ -94,21 +94,39 @@ public class Submit extends HttpServlet {
 				break;
 	
 			case "deleteUser":
-				break;
+				String[] temp1 = request.getParameterValues("userID");
+				for(int i=0;i<temp1.length;++i)
+				{
+					User.deleteUser(Integer.parseInt(temp1[i]));
+				}
+				request.getRequestDispatcher("Login").forward(request, response);
+				return;
 				
 			case "makeTeam":
 				Team.makeTeam(request.getParameter("team_name"), Integer.parseInt(request.getParameter("leader_id")));
-				break;
+				request.getRequestDispatcher("Login").forward(request, response);
+				return;
 			
 			case "changeTeamLeader": 
 				break;
 			
 			case "deleteTeam": 
-				User.deleteUser(Integer.parseInt(request.getParameter("id")));
-				break;
+				String[] temp2 = request.getParameterValues("team_id");
+				for(int i=0;i<temp2.length;++i)
+				{
+					Team.deleteTeam(Integer.parseInt(temp2[i]));
+				}
+				request.getRequestDispatcher("Login").forward(request, response);
+				return;
 			
 			case "addMemberToTeam": 
-				break;
+				String[] temp3 = request.getParameterValues("user_id");
+				for(int i=0;i<temp3.length;++i)
+				{
+					Team.addMember(Integer.parseInt(temp3[i]), Integer.parseInt(request.getParameter("team_id")));
+				}
+				request.getRequestDispatcher("Login").forward(request, response);
+				return;
 					
 		}
 		System.out.println("reached the end, to be forwarded to login servlet!");
