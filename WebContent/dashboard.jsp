@@ -262,6 +262,7 @@
 										<input name="deadline" type="date" class="form-control"><br/>
 										<input type="hidden" name="formType" value="createSubtask">
 										<input type="hidden" name="task_id" value="<% out.print(taskRS.getInt("task_id")); %>">
+										<input type="hidden" name="assigner_id" value="<% out.print(id); %>">
 										<button type="submit" class="btn btn-default"> Create sub-task</button>
 									</form>
 								</li>

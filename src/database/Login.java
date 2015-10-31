@@ -74,7 +74,7 @@ public class Login extends HttpServlet {
 				{
 					userList.add(Integer.parseInt(temp[i]));
 				}
-				System.out.println(request.getParameter("deadline"));
+				System.out.println(request.getParameter("deadline")+" "+request.getParameter("task_id"));
 			java.util.Date date = null;
 			try {
 				date = new SimpleDateFormat("yyyy-MM-dd").parse(request.getParameter("deadline"));
@@ -86,7 +86,9 @@ public class Login extends HttpServlet {
 					request.getParameter("title"),
 					date,
 					Integer.parseInt(request.getParameter("task_id")),
-					Integer.parseInt(request.getParameter("assigner_id")));
+					Integer.parseInt(request.getParameter("assigner_id")),request.getParameter("description"));
+				request.setAttribute("id", request.getParameter("assigner_id"));
+				request.setAttribute("auth", 0);
 				request.getRequestDispatcher("dashboard.jsp").forward(request, response);
 			break;
 		

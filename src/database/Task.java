@@ -45,14 +45,14 @@ public class Task {
 		int teamID = -1;
 		try{
 			connection=getConnection();
-			PreparedStatement pstmt= connection.prepareStatement("select team_id from tasks where task_id=? and completed=?");
+			PreparedStatement pstmt= connection.prepareStatement("select team_id from tasks where task_id=?");
 			pstmt.setInt(1, id);
 			ResultSet rs= pstmt.executeQuery();
 			if(!rs.next()) return teamID;
 			teamID = rs.getInt(1);
 			return teamID;
 		} catch(SQLException sqle){
-			System.out.println("SQL exception when getting all tasks for a user");
+			System.out.println("SQL exception when getting teamID for a task");
 		} finally{
 			closeConnection(connection);
 		}
@@ -88,20 +88,23 @@ public class Task {
 		}
 	}
 	
-	public static void createSubTask(ArrayList<Integer> id, String title, java.util.Date date, int supertask, int assigner_id){
+	public static void createSubTask(ArrayList<Integer> id, String title, java.util.Date date, int supertask, int assigner_id, String description){
 		Connection connection=null;
 
 		try{
 			//Integrity check for supertask
 			connection=getConnection();
 			int team_id = getTeamIDforTask(supertask);
-			PreparedStatement pstmt= connection.prepareStatement("insert into tasks (title, deadline, supertask, assigned_by, team_id) values (?,?,?,?,?)");
+			System.out.println("done0 " + new java.sql.Date(date.getTime()));
+			PreparedStatement pstmt= connection.prepareStatement("insert into tasks (title, deadline, supertask, assigned_by, team_id, detailed_desc, completed) values (?,?,?,?,?,?,false)");
 			pstmt.setString(1, title);
 			pstmt.setDate(2, new java.sql.Date(date.getTime()));
 			pstmt.setInt(3, supertask);
 			pstmt.setInt(4, assigner_id);
 			pstmt.setInt(5, team_id);
+			pstmt.setString(6, description);
 			pstmt.executeUpdate();
+			System.out.println("done1");
 			PreparedStatement pstmt1= connection.prepareStatement("select max(task_id) from tasks");
 			ResultSet rs1 = pstmt1.executeQuery();
 			rs1.next();
