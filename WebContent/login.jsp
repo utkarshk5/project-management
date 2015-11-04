@@ -13,6 +13,9 @@
   <body>
 	<div class="container">
 	    <div class="row">
+			<div id="legend">
+				<legend class="">Login</legend>
+			</div>
 			<div class="span12">
 				<form class="form-horizontal" action='Login' method="POST">
 				  <fieldset>
@@ -27,7 +30,9 @@
 				        <input type="password" id="password" name="password" placeholder="">
 				      </div><br/>
 				      <span class="error" style="color:red">${error}</span><br>
+			
 				      <!-- Button -->
+					  <input type="hidden" name="formType" value="login">
 				      <div class="controls">
 				        <button class="btn btn-success">Login</button>
 				      </div>

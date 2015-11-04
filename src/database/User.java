@@ -1,7 +1,6 @@
 package database;
 
 import java.sql.*;
-import java.util.*;
 
 public class User {	
 	public static void addUser(String name, String email, String password, String phone, String address, int team_id){
@@ -30,6 +29,21 @@ public class User {
 		} finally{
 			closeConnection(connection);
 		}
+	}
+
+	public static ResultSet getallUsers(){
+		Connection connection=null;
+		
+		try{
+			connection=getConnection();
+			PreparedStatement pstmt= connection.prepareStatement("select * from users");
+			return pstmt.executeQuery();
+		} catch(SQLException sqle){
+			System.out.println("SQL exception when fetching users");
+		} finally{
+			closeConnection(connection);
+		}
+		return null;
 	}
 
 	public static void deleteUser(int id){
@@ -61,6 +75,24 @@ public class User {
 			return rs.getInt(1);
 		} catch(SQLException sqle){
 			System.out.println("SQL exception when trying to authenticate");
+		} finally{
+			closeConnection(connection);
+		}
+		return -1;
+	}
+	
+	public static int getClearance(int id){
+		Connection connection=null;
+	
+		try{
+			connection=getConnection();
+			PreparedStatement pstmt= connection.prepareStatement("select clearance from users where user_id=?");
+			pstmt.setInt(1, id);
+			ResultSet rs = pstmt.executeQuery();
+			if(!rs.next()) return -1;
+			return rs.getInt(1);
+		} catch(SQLException sqle){
+			System.out.println("SQL exception when getting user clearance");
 		} finally{
 			closeConnection(connection);
 		}
