@@ -252,9 +252,9 @@
 						</div>
 						<div id="collapse<%out.print(i);%>" class="panel-collapse collapse in" role="tabpanel" aria-labelledby="heading<%out.print(i);%>">
 						  <div class="panel-body">
-							<form action="Submit" method="POST">
+							<form action='Submit' method="POST" enctype="multipart/form-data"> 
 								<label for="this">File upload</label>
-								<input type="file" onchange="this.form.submit()">
+								<input type="file" name="file" onchange="this.form.submit()">
 								<input type="hidden" name="formType" value="fileUpload">
 								<input type="hidden" name="task_id" value="<%out.print(taskRS.getInt("task_id"));%>">
 							</form> <br/>
@@ -315,11 +315,12 @@
 							</div>
 							<div id="collapse<%out.print(i);%>_" class="panel-collapse collapse in" role="tabpanel" aria-labelledby="heading<%out.print(i);%>_">
 								<div class="panel-body">
-									<form action="Submit" method="POST">
+									<form action='Submit' method="POST" enctype="multipart/form-data">
 										<label for="this">File upload</label>
-										<input type="file" class="btn" onchange="this.form.submit()"> </form>
+										<input type="file" name="file" onchange="this.form.submit()">
 										<input type="hidden" name="formType" value="fileUpload">
-										<input type="hidden" name="task_id" value="<% out.print(subtaskRS.getInt("task_id")); %>">
+										<input type="hidden" name="task_id" value="<%out.print(subtaskRS.getInt("task_id"));%>">
+									</form> <br/>
 									<form action="Submit" method="POST"> 
 										<label for="this">Extend Deadline</label> 
 										<input name="deadline" type="date" class="btn"> 
