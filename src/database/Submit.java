@@ -90,8 +90,20 @@ public class Submit extends HttpServlet {
 				return;
 			
 			case "createTask":
-				
-				break;
+				String[] temp4 = request.getParameterValues("assignedTo");
+				ArrayList<Integer> userList4 = new ArrayList<Integer>();
+				for(int i=0;i<temp4.length;++i)
+				{
+					userList4.add(Integer.parseInt(temp4[i]));
+				}
+				Task.createTask(userList4,
+					request.getParameter("title"),
+					Date.valueOf(request.getParameter("deadline")),
+					Integer.parseInt(session.getAttribute("user").toString()),
+					request.getParameter("description"),
+					Integer.parseInt(request.getParameter("team_id")));
+				request.getRequestDispatcher("Login").forward(request, response);
+				return;
 	
 			case "deleteUser":
 				String[] temp1 = request.getParameterValues("userID");

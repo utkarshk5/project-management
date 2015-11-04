@@ -18,6 +18,11 @@
 		<link href="bootstrap/css/bootstrap.css" rel="stylesheet">
 		<script src="bootstrap/js/jquery.min.js"></script>
 		<script src="bootstrap/js/bootstrap.js"></script>
+		<!--  <script language="javascript" type="text/javascript">
+			function teamMembers(team_id){
+				document.getElementById("hiddenTeamid").value=team_id;
+			}
+		</script> -->
 
 	</head>
 	<body>
@@ -52,10 +57,22 @@
 									<form action="Submit" method="POST">
 									<input name="title" type="text" class="form-control" placeholder="Title"><br/>
 									<input name="description" type="text" class="form-control" placeholder="Description"><br/>
-										Select person
+										Select team
+										<select name="team_id" class="form-control">
+										<%
+										int selected_teamid = -1;
+										ResultSet teamRS = Team.getallTeams();
+										for(j=1; teamRS.next(); j++){
+											%>
+											<option value="<% out.print(teamRS.getInt("team_id")); %>"><%out.print(teamRS.getString("team_name"));%></option>
+										<% } %>
+										</select><br/>
+										Select members
 										<select multiple name="assignedTo" class="form-control">
 										<%
-										ResultSet memberRS = Team.getMembers(0);
+										//if(request.getParameterMap().containsKey("hiddenTeamid"))
+										//	selected_teamid = Integer.parseInt(request.getParameter("hiddenTeamid"));
+										ResultSet memberRS = Team.getMembers(selected_teamid);
 										for(j=1; memberRS.next(); j++){
 											%>
 											<option value="<% out.print(memberRS.getInt("user_id")); %>"><%out.print(memberRS.getString("username") + "&emsp;&lt;" + memberRS.getString("email") + "&gt;"); %></option>
@@ -77,7 +94,7 @@
 								<ul class="dropdown-menu" style="padding:10px 20px">
 								<li>
 									<form action="Submit" method="POST">
-										Select person
+										Select users
 										<select multiple name="userID" class="form-control">
 										<%
 										memberRS = User.getallUsers();
@@ -101,8 +118,8 @@
 								<ul class="dropdown-menu" style="padding:10px 20px">
 								<li>
 									<form action="Submit" method="POST">
-										<input type="text" name="team_name" class="form-control" placeholder="Team name">
-										Select person
+										<input type="text" name="team_name" class="form-control" placeholder="Team name"><br>
+										Select leader
 										<select name="leader_id" class="form-control">
 										<%
 										memberRS = User.getallUsers();
@@ -129,7 +146,7 @@
 										Select teams
 										<select multiple name="team_id" class="form-control">
 										<%
-										ResultSet teamRS = Team.getallTeams();
+										teamRS = Team.getallTeams();
 										for(j=1; teamRS.next(); j++){
 											%>
 											<option value="<% out.print(teamRS.getInt("team_id")); %>"><%out.print(teamRS.getString("team_name")); %></option>
@@ -161,7 +178,7 @@
 										</select><br/>
 
 										Select leader
-										<select multiple name="leader_id" class="form-control">
+										<select name="leader_id" class="form-control">
 										<%
 										memberRS = User.getallUsers();
 										for(j=1; memberRS.next(); j++){
@@ -184,7 +201,7 @@
 								<ul class="dropdown-menu" style="padding:10px 20px">
 								<li>
 									<form action="Submit" method="POST">
-										Select teams
+										Select team
 										<select name="team_id" class="form-control">
 										<%
 										teamRS = Team.getallTeams();
@@ -194,7 +211,7 @@
 										<% } %>
 										</select><br/>
 
-										Select user
+										Select users
 										<select multiple name="user_id" class="form-control">
 										<%
 										memberRS = User.getallUsers();
@@ -253,7 +270,7 @@
 							  <ul class="dropdown-menu" style="padding:10px 20px">
 								<li>
 									<form action="Submit" method="POST">
-										Select person
+										Select members
 										<select multiple name="assignedTo" class="form-control">
 										<%
 										ResultSet memberRS = Team.getMembers(taskRS.getInt("team_id"));

@@ -88,6 +88,11 @@ public class Team {
 		ResultSet rs = null;
 		try{
 			connection=getConnection();
+			if(teamID == -1)
+			{
+				rs = User.getallUsers();
+				return rs;
+			}
 			PreparedStatement pstmt= connection.prepareStatement("select * from users natural join teamAssign where team_id=?");
 			pstmt.setInt(1, teamID);
 			rs= pstmt.executeQuery();
