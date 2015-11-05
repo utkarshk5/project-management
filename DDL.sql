@@ -20,6 +20,8 @@ CREATE TABLE users
  phone   	 VARCHAR(15),
  address    VARCHAR(80),
  clearance    INTEGER,
+ question     VARCHAR(200) not null,
+ answer     VARCHAR(20) not null,
  PRIMARY KEY (user_id)
 );
 

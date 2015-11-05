@@ -22,12 +22,12 @@
 				      <!-- Username -->
 				      <label class="control-label" for="email">Email</label>
 				      <div class="controls">
-				        <input type="text" id="email" name="email" placeholder="">
+				        <input type="text" id="email" name="email" placeholder="" required>
 				      </div><br/>
 				      <!-- Password-->
 				      <label class="control-label" for="password">Password</label>
 				      <div class="controls">
-				        <input type="password" id="password" name="password" placeholder="">
+				        <input type="password" id="password" name="password" placeholder="" required>
 				      </div><br/>
 				      <span class="error" style="color:red">${error}</span><br>
 			

@@ -57,10 +57,10 @@
 								<ul class="dropdown-menu" style="padding:10px 20px">
 								<li>
 									<form action="Submit" method="POST">
-									<input name="title" type="text" class="form-control" placeholder="Title"><br/>
-									<input name="description" type="text" class="form-control" placeholder="Description"><br/>
+									<input name="title" type="text" class="form-control" placeholder="Title" required><br/>
+									<input name="description" type="text" class="form-control" placeholder="Description" required><br/>
 										Select team
-										<select name="team_id" class="form-control">
+										<select name="team_id" class="form-control" required>
 										<%
 										int selected_teamid = -1;
 										ResultSet teamRS = Team.getallTeams();
@@ -70,7 +70,7 @@
 										<% } %>
 										</select><br/>
 										Select members
-										<select multiple name="assignedTo" class="form-control">
+										<select multiple name="assignedTo" class="form-control" required>
 										<%
 										//if(request.getParameterMap().containsKey("hiddenTeamid"))
 										//	selected_teamid = Integer.parseInt(request.getParameter("hiddenTeamid"));
@@ -80,7 +80,7 @@
 											<option value="<% out.print(memberRS.getInt("user_id")); %>"><%out.print(memberRS.getString("username") + "&emsp;&lt;" + memberRS.getString("email") + "&gt;"); %></option>
 										<% } %>
 										</select><br/>
-										<input name="deadline" type="date" class="form-control"><br/>
+										<input name="deadline" type="date" class="form-control" required><br/>
 										<input type="hidden" name="formType" value="createTask">
 										<button type="submit" class="btn btn-default"> Create </button>
 									</form>
@@ -97,7 +97,7 @@
 								<li>
 									<form action="Submit" method="POST">
 										Select users
-										<select multiple name="userID" class="form-control">
+										<select multiple name="userID" class="form-control" required>
 										<%
 										memberRS = User.getallUsers();
 										for(j=1; memberRS.next(); j++){
@@ -120,9 +120,9 @@
 								<ul class="dropdown-menu" style="padding:10px 20px">
 								<li>
 									<form action="Submit" method="POST">
-										<input type="text" name="team_name" class="form-control" placeholder="Team name"><br>
+										<input type="text" name="team_name" class="form-control" placeholder="Team name" required><br>
 										Select leader
-										<select name="leader_id" class="form-control">
+										<select name="leader_id" class="form-control" required>
 										<%
 										memberRS = User.getallUsers();
 										for(j=1; memberRS.next(); j++){
@@ -146,7 +146,7 @@
 								<li>
 									<form action="Submit" method="POST">
 										Select teams
-										<select multiple name="team_id" class="form-control">
+										<select multiple name="team_id" class="form-control" required>
 										<%
 										teamRS = Team.getallTeams();
 										for(j=1; teamRS.next(); j++){
@@ -170,7 +170,7 @@
 								<li>
 									<form action="Submit" method="POST">
 										Select team
-										<select name="team_id" class="form-control">
+										<select name="team_id" class="form-control" required>
 										<%
 										teamRS = Team.getallTeams();
 										for(j=1; teamRS.next(); j++){
@@ -180,7 +180,7 @@
 										</select><br/>
 
 										Select leader
-										<select name="leader_id" class="form-control">
+										<select name="leader_id" class="form-control" required>
 										<%
 										memberRS = User.getallUsers();
 										for(j=1; memberRS.next(); j++){
@@ -204,7 +204,7 @@
 								<li>
 									<form action="Submit" method="POST">
 										Select team
-										<select name="team_id" class="form-control">
+										<select name="team_id" class="form-control" required>
 										<%
 										teamRS = Team.getallTeams();
 										for(j=1; teamRS.next(); j++){
@@ -214,7 +214,7 @@
 										</select><br/>
 
 										Select users
-										<select multiple name="user_id" class="form-control">
+										<select multiple name="user_id" class="form-control" required>
 										<%
 										memberRS = User.getallUsers();
 										for(j=1; memberRS.next(); j++){
@@ -238,7 +238,7 @@
 								<li>
 									<form action="Submit" method="POST">
 										Select team
-										<select name="team_id" class="form-control">
+										<select name="team_id" class="form-control" required>
 										<%
 										teamRS = Team.getallTeams();
 										for(j=1; teamRS.next(); j++){
@@ -248,7 +248,7 @@
 										</select><br/>
 
 										Select members
-										<select name="user_id" class="form-control">
+										<select name="user_id" class="form-control" required>
 										<%
 										memberRS = User.getallUsers();
 										for(j=1; memberRS.next(); j++){
@@ -276,10 +276,10 @@
 								<ul class="dropdown-menu" style="padding:10px 20px">
 								<li>
 									<form action="Submit" method="POST">
-									<input name="title" type="text" class="form-control" placeholder="Title"><br/>
-									<input name="description" type="text" class="form-control" placeholder="Description"><br/>
+									<input name="title" type="text" class="form-control" placeholder="Title" required><br/>
+									<input name="description" type="text" class="form-control" placeholder="Description" required><br/>
 										Select team
-										<select name="team_id" class="form-control">
+										<select name="team_id" class="form-control" required>
 										<%
 										ResultSet teamRS = Team.getLeaderTeams(id);
 										for(j=1; teamRS.next(); j++){
@@ -288,7 +288,7 @@
 										<% } %>
 										</select><br/>
 										Select members
-										<select multiple name="assignedTo" class="form-control">
+										<select multiple name="assignedTo" class="form-control" required>
 										<%
 										//if(request.getParameterMap().containsKey("hiddenTeamid"))
 										//	selected_teamid = Integer.parseInt(request.getParameter("hiddenTeamid"));
@@ -298,7 +298,7 @@
 											<option value="<% out.print(memberRS.getInt("user_id")); %>"><%out.print(memberRS.getString("username") + "&emsp;&lt;" + memberRS.getString("email") + "&gt;"); %></option>
 										<% } %>
 										</select><br/>
-										<input name="deadline" type="date" class="form-control"><br/>
+										<input name="deadline" type="date" class="form-control" required><br/>
 										<input type="hidden" name="formType" value="createTask">
 										<button type="submit" class="btn btn-default"> Create </button>
 									</form>
@@ -315,7 +315,7 @@
 								<li>
 									<form action="Submit" method="POST">
 										Select team
-										<select name="team_id" class="form-control">
+										<select name="team_id" class="form-control" required>
 										<%
 										teamRS = Team.getLeaderTeams(id);
 										for(j=1; teamRS.next(); j++){
@@ -325,7 +325,7 @@
 										</select><br/>
 
 										Select members
-										<select name="user_id" class="form-control">
+										<select name="user_id" class="form-control" required>
 										<%
 										memberRS = Team.getMyMembers(id);
 										for(j=1; memberRS.next(); j++){
@@ -350,9 +350,9 @@
 								<ul class="dropdown-menu" style="padding:10px 20px">
 								<li>
 									<form action="Submit" method="POST">
-										<input type="text" name="team_name" class="form-control" placeholder="Team name"><br>
+										<input type="text" name="team_name" class="form-control" placeholder="Team name" required><br>
 										Select leader
-										<select name="leader_id" class="form-control">
+										<select name="leader_id" class="form-control" required>
 										<%
 										memberRS = User.getallUsers();
 										for(j=1; memberRS.next(); j++){
@@ -376,7 +376,7 @@
 								<li>
 									<form action="Submit" method="POST">
 										Select teams
-										<select multiple name="team_id" class="form-control">
+										<select multiple name="team_id" class="form-control" required>
 										<%
 										teamRS = Team.getLeaderTeams(id);
 										for(j=1; teamRS.next(); j++){
@@ -400,7 +400,7 @@
 								<li>
 									<form action="Submit" method="POST">
 										Select team
-										<select name="team_id" class="form-control">
+										<select name="team_id" class="form-control" required>
 										<%
 										teamRS = Team.getLeaderTeams(id);
 										for(j=1; teamRS.next(); j++){
@@ -410,7 +410,7 @@
 										</select><br/>
 
 										Select users
-										<select multiple name="user_id" class="form-control">
+										<select multiple name="user_id" class="form-control" required>
 										<%
 										memberRS = User.getallUsers();
 										for(j=1; memberRS.next(); j++){
@@ -434,7 +434,7 @@
 								<li>
 									<form action="Submit" method="POST">
 										Select team
-										<select name="team_id" class="form-control">
+										<select name="team_id" class="form-control" required>
 										<%
 										teamRS = Team.getLeaderTeams(id);
 										for(j=1; teamRS.next(); j++){
@@ -444,7 +444,7 @@
 										</select><br/>
 
 										Select leader
-										<select name="leader_id" class="form-control">
+										<select name="leader_id" class="form-control" required>
 										<%
 										memberRS = Team.getMyMembers(id);
 										for(j=1; memberRS.next(); j++){
@@ -468,7 +468,7 @@
 								<li>
 									<form action="Submit" method="POST">
 										Select team
-										<select name="team_id" class="form-control">
+										<select name="team_id" class="form-control" required>
 										<%
 										teamRS = Team.getTeams(id);
 										for(j=1; teamRS.next(); j++){
@@ -562,7 +562,7 @@
 								<li>
 									<form action="Submit" method="POST">
 										Select members
-										<select multiple name="assignedTo" class="form-control">
+										<select multiple name="assignedTo" class="form-control" required>
 										<%
 										ResultSet memberRS = Team.getMembers(taskRS.getInt("team_id"));
 										for(j=1; memberRS.next(); j++){
@@ -570,10 +570,10 @@
 											<option value="<% out.print(memberRS.getInt("user_id")); %>"><%out.print(memberRS.getString("username") + "&emsp;&lt;" + memberRS.getString("email") + "&gt;"); %></option>
 										<% } %>
 										</select><br/>
-										<input name="title" type="text" class="form-control" placeholder="Title"><br/>
-										<input name="description" type="text" class="form-control" placeholder="Description"><br/>
+										<input name="title" type="text" class="form-control" placeholder="Title" required><br/>
+										<input name="description" type="text" class="form-control" placeholder="Description" required><br/>
 										Set Deadline
-										<input name="deadline" type="date" class="form-control"><br/>
+										<input name="deadline" type="date" class="form-control" required><br/>
 										<input type="hidden" name="formType" value="createSubtask">
 										<input type="hidden" name="task_id" value="<% out.print(taskRS.getInt("task_id")); %>">
 										<button type="submit" class="btn btn-default"> Create sub-task</button>
@@ -650,7 +650,7 @@
 									</form> <br/>
 									<form action="Submit" method="POST"> 
 										<label for="this">Extend Deadline</label> 
-										<input name="deadline" type="date" class="btn"> 
+										<input name="deadline" type="date" class="btn" required> 
 										<input type="hidden" name="formType" value="extendDeadline"> 
 										<input type="hidden" name="task_id" value="<% out.print(subtaskRS.getInt("task_id")); %>"> 
 										<button type="submit" class="btn btn-default"> Extend</button>

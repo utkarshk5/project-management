@@ -12,19 +12,19 @@ insert into teams values( 0, 0, 'Admin');
 insert into teams values( 1, 1, 'Research');
 insert into teams values( 2, 2, 'Development');
 
-insert into users values( 0, 'admin', 'root', 'admin@admin.com', '9999999999', 'Admin address', 0);
+insert into users values( 0, 'admin', 'root', 'admin@admin.com', '9999999999', 'Admin address', 0, 'Whos your bitch?', 'ck');
 
-insert into users values( 1, 'Suresh', 'sureshIsAwesome', 'suri@gmail.com', '8008012345', '123, Suresh house, Lajpat Nagar, Delhi', 1);
-insert into users values( 2, 'Rohit', 'rohitRoxxx', 'sharma12@hotmail.com', '9978711242', '22, Koti Boti road, Parel, Mumbai', 1);
+insert into users values( 1, 'Suresh', 'sureshIsAwesome', 'suri@gmail.com', '8008012345', '123, Suresh house, Lajpat Nagar, Delhi', 1, 'What am I?', 'question');
+insert into users values( 2, 'Rohit', 'rohitRoxxx', 'sharma12@hotmail.com', '9978711242', '22, Koti Boti road, Parel, Mumbai', 1, 'You cant keep this until you have given it.', 'promise');
 
-insert into users values( 3, 'Wood', 'pass1', 'sureshKaPattha@hotmail.com', '9878711242', '12, Koti Boti road, Parel, Mumbai', 2);
-insert into users values( 4, 'Yu', 'pass2', 'yu@hotmail.com', '9778711242', '32, Koti Boti road, Parel, Mumbai', 2);
-insert into users values( 5, 'Steel', 'pass3', 'steel@hotmail.com', '9678711242', '42, Koti Boti road, Parel, Mumbai', 2);
-insert into users values( 6, 'Luv', 'pass4', 'luv@hotmail.com', '9578711242', '52, Koti Boti road, Parel, Mumbai', 2);
+insert into users values( 3, 'Wood', 'pass1', 'sureshKaPattha@hotmail.com', '9878711242', '12, Koti Boti road, Parel, Mumbai', 2, 'Some months have 30 days, some months have 31 days; how many have 28?', '12');
+insert into users values( 4, 'Yu', 'pass2', 'yu@hotmail.com', '9778711242', '32, Koti Boti road, Parel, Mumbai', 2, 'Take off my skin -- I wont cry, but you will! What am I?', 'onion');
+insert into users values( 5, 'Steel', 'pass3', 'steel@hotmail.com', '9678711242', '42, Koti Boti road, Parel, Mumbai', 2, 'The more it dries, the wetter it gets. What is it?', 'towel');
+insert into users values( 6, 'Luv', 'pass4', 'luv@hotmail.com', '9578711242', '52, Koti Boti road, Parel, Mumbai', 2, 'What grows when it eats, but dies when it drinks?', 'fire');
 
-insert into users values( 7, 'Mi', 'pass1', 'sharma1@hotmail.com', '9478711242', '62, Koti Boti road, Parel, Mumbai', 2);
-insert into users values( 8, 'Da', 'pass2', 'sharma2@hotmail.com', '9378711242', '72, Koti Boti road, Parel, Mumbai', 2);
-insert into users values( 9, 'Sam', 'pass3', 'sharma3@hotmail.com', '9278711242', '82, Koti Boti road, Parel, Mumbai', 2);
+insert into users values( 7, 'Mi', 'pass1', 'sharma1@hotmail.com', '9478711242', '62, Koti Boti road, Parel, Mumbai', 2, 'You play with me at night before going to sleep. You can’t get caught fiddling with me at work. You only let a select few people touch me. What am I?', 'phone');
+insert into users values( 8, 'Da', 'pass2', 'sharma2@hotmail.com', '9378711242', '72, Koti Boti road, Parel, Mumbai', 2, 'What’s long and hard and has cum in it?', 'cucumber');
+insert into users values( 9, 'Sam', 'pass3', 'sharma3@hotmail.com', '9278711242', '82, Koti Boti road, Parel, Mumbai', 2, 'I come in a lot of different sizes. Sometimes, I drip a little. If you blow me, it feels really good. What am I?', 'nose');
 
 insert into teamAssign values(0,0);
 insert into teamAssign values(0,1);
@@ -42,15 +42,15 @@ insert into teamAssign values(2,8);
 insert into teamAssign values(2,9);
 
 
-insert into tasks values(  0, 0, 0, NULL, 'Admin wala Task', 'The main task', '1999-01-08',NULL, '0', 'none' );
-insert into tasks values(  1, 0, 0, 0, 'Research Task', 'The research part of the job', '1999-01-08',NULL, '0', 'none' );
-insert into tasks values(  2, 0, 0, 0, 'Development Task', 'The dev part of the job', '1999-01-08',NULL, '0', 'none' );
+insert into tasks values(  0, 0, 0, NULL, 'Admin wala Task', 'The main task', '1999-01-08', '0', 'none' );
+insert into tasks values(  1, 0, 0, 0, 'Research Task', 'The research part of the job', '1999-01-08', '0', 'none' );
+insert into tasks values(  2, 0, 0, 0, 'Development Task', 'The dev part of the job', '1999-01-08', '0', 'none' );
 
-insert into tasks values(  3, 1, 1, 1, 'Research Sub Task 1', 'The dev part of the job', '1999-01-08',NULL, '1', 'none' );
-insert into tasks values(  4, 1, 1, 1, 'Research Sub Task 2', 'The dev part of the job', '1999-01-08',NULL, '0', 'none' );
+insert into tasks values(  3, 1, 1, 1, 'Research Sub Task 1', 'The dev part of the job', '1999-01-08', '1', 'none' );
+insert into tasks values(  4, 1, 1, 1, 'Research Sub Task 2', 'The dev part of the job', '1999-01-08', '0', 'none' );
 
-insert into tasks values(  5, 2, 2, 2, 'Dev Sub Task 1', 'The dev part of the job', '1999-01-08',NULL, '1', 'none' );
-insert into tasks values(  6, 2, 2, 2, 'Dev Sub Task 2', 'The dev part of the job', '1999-01-08',NULL, '0', 'none' );
+insert into tasks values(  5, 2, 2, 2, 'Dev Sub Task 1', 'The dev part of the job', '1999-01-08', '1', 'none' );
+insert into tasks values(  6, 2, 2, 2, 'Dev Sub Task 2', 'The dev part of the job', '1999-01-08', '0', 'none' );
 
 insert into taskAssign values(0,0);
 insert into taskAssign values(1,1);

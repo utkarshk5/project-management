@@ -75,6 +75,14 @@ public class Submit extends HttpServlet {
 				{
 					userList.add(Integer.parseInt(temp[i]));
 				}
+				java.util.Date utilDate = new java.util.Date();
+				java.sql.Date sqlDate = new java.sql.Date(utilDate.getTime());
+				if(sqlDate.compareTo(Date.valueOf(request.getParameter("deadline"))) > 0)
+				{
+					request.setAttribute("errordash", "The deadline can't be in the past");
+					request.getRequestDispatcher("Login").forward(request, response);
+					return;
+				}
 				Task.createSubTask(userList,
 					request.getParameter("title"),
 					Date.valueOf(request.getParameter("deadline")),
@@ -86,6 +94,14 @@ public class Submit extends HttpServlet {
 			
 			
 			case "extendDeadline":
+				utilDate = new java.util.Date();
+				sqlDate = new java.sql.Date(utilDate.getTime());
+				if(sqlDate.compareTo(Date.valueOf(request.getParameter("deadline"))) > 0)
+				{
+					request.setAttribute("errordash", "The deadline can't be in the past");
+					request.getRequestDispatcher("Login").forward(request, response);
+					return;
+				}
 				Task.extendDeadline(
 						Integer.parseInt(request.getParameter("task_id")),
 						Date.valueOf(request.getParameter("deadline")) );
@@ -108,6 +124,14 @@ public class Submit extends HttpServlet {
 				if(!Team.checkMembers(userList4, Integer.parseInt(request.getParameter("team_id"))))
 				{
 					request.setAttribute("errordash", "The Users selected must be of the selected Team");
+					request.getRequestDispatcher("Login").forward(request, response);
+					return;
+				}
+				utilDate = new java.util.Date();
+				sqlDate = new java.sql.Date(utilDate.getTime());
+				if(sqlDate.compareTo(Date.valueOf(request.getParameter("deadline"))) > 0)
+				{
+					request.setAttribute("errordash", "The deadline can't be in the past");
 					request.getRequestDispatcher("Login").forward(request, response);
 					return;
 				}
