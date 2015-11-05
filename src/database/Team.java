@@ -21,6 +21,23 @@ public class Team {
 		return rs;
 	}
 	
+	public static ResultSet getLeaderTeams(int id){
+		Connection connection=null;
+		ResultSet rs = null;
+		try{
+			connection=getConnection();
+			PreparedStatement pstmt= connection.prepareStatement("select * from teams where leader_id=?");
+			pstmt.setInt(1, id);
+			rs = pstmt.executeQuery();
+			return rs;
+		} catch(SQLException sqle){
+			System.out.println("SQL exception when getting teams of which the user is a leader");
+		} finally{
+			closeConnection(connection);
+		}
+		return rs;
+	}
+	
 	public static void makeTeam(String name, int leader_id){
 		Connection connection=null;
 		
@@ -30,6 +47,14 @@ public class Team {
 			pstmt.setString(1, name);
 			pstmt.setInt(2, leader_id);
 			pstmt.executeUpdate();
+			PreparedStatement pstmt1= connection.prepareStatement("select max(team_id) from teams");
+			ResultSet rs1 = pstmt1.executeQuery();
+			rs1.next();
+			int task_id = rs1.getInt(1);
+			PreparedStatement pstmt2= connection.prepareStatement("insert into teamAssign (team_id, user_id) values (?, ?)");
+			pstmt2.setInt(1, task_id);
+			pstmt2.setInt(2, leader_id);
+			pstmt2.executeUpdate();
 		} catch(SQLException sqle){
 			System.out.println("SQL exception creating team");
 		} finally{
@@ -105,6 +130,41 @@ public class Team {
 		return rs;
 	}
 	
+	public static int getLeader(int teamID){
+		Connection connection=null;
+		
+		try{
+			connection=getConnection();
+			PreparedStatement pstmt= connection.prepareStatement("select leader_id from teams where team_id=?");
+			pstmt.setInt(1, teamID);
+			ResultSet rs= pstmt.executeQuery();
+			if(!rs.next()) return -1;
+			return rs.getInt(1);
+		} catch(SQLException sqle){
+			System.out.println("SQL exception when getting team members");
+		} finally{
+			closeConnection(connection);
+		}
+		return -1;
+	}
+	
+	public static ResultSet getMyMembers(int userID){
+		Connection connection=null;
+		ResultSet rs = null;
+		try{
+			connection=getConnection();
+			PreparedStatement pstmt= connection.prepareStatement(" select distinct user_id,username,email from users natural join teamAssign natural join teams where leader_id = ?");
+			pstmt.setInt(1, userID);
+			rs= pstmt.executeQuery();
+			return rs;
+		} catch(SQLException sqle){
+			System.out.println("SQL exception when getting team members from all teams of the user");
+		} finally{
+			closeConnection(connection);
+		}
+		return rs;
+	}
+	
 	public static void addMember(int id, int teamID){
 		Connection connection=null;
 		
@@ -116,6 +176,22 @@ public class Team {
 			pstmt.executeUpdate();
 		} catch(SQLException sqle){
 			System.out.println("SQL exception when adding user to the team");
+		} finally{
+			closeConnection(connection);
+		}
+	}
+	
+	public static void deleteMember(int teamID, int userID){
+		Connection connection=null;
+		
+		try{
+			connection=getConnection();
+			PreparedStatement pstmt= connection.prepareStatement("delete from teamAssign where (team_id, user_id) = (?,?)");
+			pstmt.setInt(1, teamID);
+			pstmt.setInt(2, userID);
+			pstmt.executeUpdate();
+		} catch(SQLException sqle){
+			System.out.println("SQL exception when removing user from the team");
 		} finally{
 			closeConnection(connection);
 		}

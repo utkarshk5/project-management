@@ -131,7 +131,7 @@ public class Submit extends HttpServlet {
 				
 			case "makeTeam":
 				
-				Team.makeTeam(request.getParameter("team_name"), Integer.parseInt(request.getParameter("user_id")));
+				Team.makeTeam(request.getParameter("team_name"), Integer.parseInt(request.getParameter("leader_id")));
 				request.getRequestDispatcher("Login").forward(request, response);
 				return;
 			
@@ -145,6 +145,36 @@ public class Submit extends HttpServlet {
 					return;
 				}
 				Team.changeLeader(Integer.parseInt(request.getParameter("team_id")), Integer.parseInt(request.getParameter("leader_id")));
+				request.getRequestDispatcher("Login").forward(request, response);
+				return;
+			
+			case "removeMember": 
+				ArrayList<Integer> tempList1 = new ArrayList<Integer>();
+				tempList1.add(Integer.parseInt(request.getParameter("user_id")));
+				if(!Team.checkMembers(tempList1, Integer.parseInt(request.getParameter("team_id"))))
+				{
+					request.setAttribute("errordash", "The User selected must belong to the selected Team");
+					request.getRequestDispatcher("Login").forward(request, response);
+					return;
+				}
+				if(Integer.parseInt(request.getParameter("user_id")) == Team.getLeader(Integer.parseInt(request.getParameter("team_id"))))
+				{
+					request.setAttribute("errordash", "The User selected is leader of the selected Team, Please change the leader before removing");
+					request.getRequestDispatcher("Login").forward(request, response);
+					return;
+				}
+				Team.deleteMember(Integer.parseInt(request.getParameter("team_id")), Integer.parseInt(request.getParameter("user_id")));
+				request.getRequestDispatcher("Login").forward(request, response);
+				return;
+				
+			case "exitTeam": 
+				if(Integer.parseInt(session.getAttribute("user").toString()) == Team.getLeader(Integer.parseInt(request.getParameter("team_id"))))
+				{
+					request.setAttribute("errordash", "You are leader of the selected Team, Please assign a new leader before exiting");
+					request.getRequestDispatcher("Login").forward(request, response);
+					return;
+				}
+				Team.deleteMember(Integer.parseInt(request.getParameter("team_id")), Integer.parseInt(session.getAttribute("user").toString()));
 				request.getRequestDispatcher("Login").forward(request, response);
 				return;
 			
