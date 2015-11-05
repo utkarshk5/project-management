@@ -215,14 +215,26 @@ public class Submit extends HttpServlet {
 			            outStream.close(); 
 						
 						is.close();
-						request.getRequestDispatcher("Login").forward(request, response);
+						request.getRequestDispatcher("Login");//.forward(request, response);
 						return;		
-					
+
 					case "share":
-						if(request.getParameter("share_task_id") == null){
+						if(request.getParameter("share_task_id") == null || request.getParameter("resource_id") == null){
 							break;
 						}
-					return;		
+						Resource.addResourceAssign(Integer.parseInt(request.getParameter("resource_id")),Integer.parseInt(request.getParameter("share_task_id")));
+						request.getRequestDispatcher("Login").forward(request, response);
+						return;
+
+					case "remove":
+						if(request.getParameter("resource_id") == null){
+							break;
+						}
+						System.out.println("in remove resource");
+						Resource.removeResourceAssign(Integer.parseInt(request.getParameter("resource_id")),Integer.parseInt(request.getParameter("task_id")));
+						request.getRequestDispatcher("Login").forward(request, response);
+						return;
+							
 					
 				};
 			
