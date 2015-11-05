@@ -1,24 +1,31 @@
 package database;
 
+
 import java.io.IOException;
+import java.io.InputStream;
+import java.io.OutputStream;
 import java.sql.Date;
 import java.sql.ResultSet;
 import java.util.ArrayList;
 
+import javax.servlet.ServletContext;
 import javax.servlet.ServletException;
+import javax.servlet.annotation.MultipartConfig;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
+import javax.servlet.http.Part;
 
 /**
  * Servlet implementation class Submit
  */
 @WebServlet("/Submit")
+@MultipartConfig
 public class Submit extends HttpServlet {
 	private static final long serialVersionUID = 1L;
-       
+    private static final int BUFFER_SIZE = 4096;    
     /**
      * @see HttpServlet#HttpServlet()
      */
@@ -158,6 +165,86 @@ public class Submit extends HttpServlet {
 				}
 				request.getRequestDispatcher("Login").forward(request, response);
 				return;
+				
+			case "fileUpload":
+				//System.out.println("file upload");
+				//System.out.println(request.getParameter("file").toString());
+				Part filePart = request.getPart("file");
+				//System.out.println("got the part");
+				String fileName = getSubmittedFileName(filePart);
+				//System.out.println(fileName);
+				InputStream fileContent = filePart.getInputStream();
+				int resource_id = Resource.addResource(fileName, fileContent, Integer.parseInt(request.getParameter("task_id")));
+
+//				String sRootPath = new File("").getAbsolutePath() + "/" + fileName;
+//				FileOutputStream os = new FileOutputStream(System.getProperty("user.dir")+"/"+1);
+//				System.out.println(sRootPath);
+//				int b = 0;
+//				while ((b = fileContent.read()) != -1)
+//				{
+//				    os.write(b); 
+//				}
+				fileContent.close();
+
+				request.getRequestDispatcher("Login").forward(request, response);
+				return;
+				
+			case "manageFiles":
+				switch(request.getParameter("resourceSubmit")){
+					case "download":
+						if(request.getParameter("resource_id") == null){
+							break;
+						}
+						InputStream is = Resource.getResource(Integer.parseInt(request.getParameter("resource_id") ) );
+						String fileName1 = Resource.getResourceName(Integer.parseInt(request.getParameter("resource_id") ));
+						System.out.println("filename1 "+fileName1);
+						int fileLength = is.available();
+						
+			           // System.out.println(is.available());
+			           // System.out.println(resource_id);
+
+			            ServletContext context = getServletContext();
+
+			            // sets MIME type for the file download
+			            String mimeType = context.getMimeType(fileName1);
+			            if (mimeType == null) {        
+			                mimeType = "application/octet-stream";
+			            }              
+			             
+			            // set content properties and header attributes for the response
+			            response.setContentType(mimeType);
+			            response.setContentLength(fileLength);
+			            String headerKey = "Content-Disposition";
+			            String headerValue = String.format("attachment; filename=\"%s\"", fileName1);
+			            response.setHeader(headerKey, headerValue);
+
+			            // writes the file to the client
+			            OutputStream outStream = response.getOutputStream();
+			             
+			            byte[] buffer = new byte[BUFFER_SIZE];
+			            int bytesRead = -1;
+			             
+			            while ((bytesRead = is.read(buffer)) != -1) {
+			                outStream.write(buffer, 0, bytesRead);
+			                //System.out.println(buffer+"buffer");
+			            }
+			             
+			           // inputStream.close();
+			            //is.close();
+			            outStream.close(); 
+						
+						is.close();
+						request.getRequestDispatcher("Login").forward(request, response);
+						return;		
+					
+					case "share":
+						if(request.getParameter("share_task_id") == null){
+							break;
+						}
+					return;		
+					
+				};
+			
 					
 		}
 		System.out.println("reached the end, to be forwarded to login servlet!");
@@ -173,5 +260,15 @@ public class Submit extends HttpServlet {
 		// TODO Auto-generated method stub
 		doGet(request, response);
 	}
+	
+    private static String getSubmittedFileName(Part part) {
+        for (String cd : part.getHeader("content-disposition").split(";")) {
+            if (cd.trim().startsWith("filename")) {
+                String fileName = cd.substring(cd.indexOf('=') + 1).trim().replace("\"", "");
+                return fileName.substring(fileName.lastIndexOf('/') + 1).substring(fileName.lastIndexOf('\\') + 1); // MSIE fix.
+            }
+        }
+        return null;
+    }
 
 }

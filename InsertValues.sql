@@ -68,6 +68,10 @@ insert into taskAssign values(5,8);
 
 insert into taskAssign values(6,8);
 insert into taskAssign values(6,9);
+
+insert into resources values(DEFAULT,'file1','data1');
+
+insert into resourceAssign values(0,1);
 COMMIT;
 
 -- insert into subtasks values( 2, 1 );

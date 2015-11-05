@@ -3,6 +3,7 @@
 -- drop table tasks cascade;
 -- drop table teamAssign cascade;
 -- drop table taskAssign cascade;
+ drop table resources cascade;
 
 CREATE TABLE teams
 (team_id    serial,
@@ -46,7 +47,6 @@ CREATE TABLE tasks
  title       VARCHAR(30),
  detailed_desc VARCHAR(200),
  deadline    DATE not null,
- resource_id VARCHAR(5)[],
  completed  boolean not null,
  remarks    VARCHAR(100),
  PRIMARY KEY(task_id),
@@ -64,6 +64,25 @@ CREATE TABLE taskAssign
   FOREIGN KEY (task_id) REFERENCES tasks
   ON DELETE CASCADE,
   FOREIGN KEY (user_id) REFERENCES users
+  ON DELETE CASCADE
+);
+
+CREATE TABLE resources
+(
+  resource_id SERIAL,
+  filename    VARCHAR(30),
+  file        BYTEA,
+  PRIMARY KEY(resource_id)
+);
+
+CREATE TABLE resourceAssign
+(
+  task_id  INTEGER,
+  resource_id  INTEGER,
+PRIMARY KEY(task_id, resource_id),
+  FOREIGN KEY (task_id) REFERENCES tasks
+  ON DELETE CASCADE,
+  FOREIGN KEY (resource_id) REFERENCES resources
   ON DELETE CASCADE
 );
 
