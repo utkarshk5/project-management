@@ -10,7 +10,7 @@ public class Task {
 		ResultSet rs = null;
 		try{
 			connection=getConnection();
-			PreparedStatement pstmt= connection.prepareStatement("select * from tasks natural join taskAssign where user_id=? and completed=?");
+			PreparedStatement pstmt= connection.prepareStatement("select * from tasks natural join taskAssign where user_id=? and completed=? order by deadline");
 			pstmt.setInt(1, id);
 			pstmt.setBoolean(2, comp);
 			rs= pstmt.executeQuery();
@@ -28,7 +28,7 @@ public class Task {
 		ResultSet rs = null;
 		try{
 			connection=getConnection();
-			PreparedStatement pstmt= connection.prepareStatement("select * from tasks where assigned_by=? and completed=?");
+			PreparedStatement pstmt= connection.prepareStatement("select * from tasks where assigned_by=? and completed=? order by deadline");
 			pstmt.setInt(1, id);
 			pstmt.setBoolean(2, comp);
 			rs= pstmt.executeQuery();
