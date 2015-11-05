@@ -167,45 +167,65 @@ public class Submit extends HttpServlet {
 //				}
 				fileContent.close();
 
-				fileContent = Resource.getResource(resource_id );
-				int fileLength = fileContent.available();
-				
-	           // System.out.println(fileContent.available());
-	           // System.out.println(resource_id);
-
-	            ServletContext context = getServletContext();
-
-	            // sets MIME type for the file download
-	            String mimeType = context.getMimeType(fileName);
-	            if (mimeType == null) {        
-	                mimeType = "application/octet-stream";
-	            }              
-	             
-	            // set content properties and header attributes for the response
-	            response.setContentType(mimeType);
-	            response.setContentLength(fileLength);
-	            String headerKey = "Content-Disposition";
-	            String headerValue = String.format("attachment; filename=\"%s\"", fileName);
-	            response.setHeader(headerKey, headerValue);
-
-	            // writes the file to the client
-	            OutputStream outStream = response.getOutputStream();
-	             
-	            byte[] buffer = new byte[BUFFER_SIZE];
-	            int bytesRead = -1;
-	             
-	            while ((bytesRead = fileContent.read(buffer)) != -1) {
-	                outStream.write(buffer, 0, bytesRead);
-	                //System.out.println(buffer+"buffer");
-	            }
-	             
-	           // inputStream.close();
-	            //is.close();
-	            outStream.close(); 
-				
-				fileContent.close();
-				request.getRequestDispatcher("Login");//.forward(request, response);
+				request.getRequestDispatcher("Login").forward(request, response);
 				return;
+				
+			case "manageFiles":
+				switch(request.getParameter("resourceSubmit")){
+					case "download":
+						if(request.getParameter("resource_id") == null){
+							break;
+						}
+						InputStream is = Resource.getResource(Integer.parseInt(request.getParameter("resource_id") ) );
+						String fileName1 = Resource.getResourceName(Integer.parseInt(request.getParameter("resource_id") ));
+						System.out.println("filename1 "+fileName1);
+						int fileLength = is.available();
+						
+			           // System.out.println(is.available());
+			           // System.out.println(resource_id);
+
+			            ServletContext context = getServletContext();
+
+			            // sets MIME type for the file download
+			            String mimeType = context.getMimeType(fileName1);
+			            if (mimeType == null) {        
+			                mimeType = "application/octet-stream";
+			            }              
+			             
+			            // set content properties and header attributes for the response
+			            response.setContentType(mimeType);
+			            response.setContentLength(fileLength);
+			            String headerKey = "Content-Disposition";
+			            String headerValue = String.format("attachment; filename=\"%s\"", fileName1);
+			            response.setHeader(headerKey, headerValue);
+
+			            // writes the file to the client
+			            OutputStream outStream = response.getOutputStream();
+			             
+			            byte[] buffer = new byte[BUFFER_SIZE];
+			            int bytesRead = -1;
+			             
+			            while ((bytesRead = is.read(buffer)) != -1) {
+			                outStream.write(buffer, 0, bytesRead);
+			                //System.out.println(buffer+"buffer");
+			            }
+			             
+			           // inputStream.close();
+			            //is.close();
+			            outStream.close(); 
+						
+						is.close();
+						request.getRequestDispatcher("Login").forward(request, response);
+						return;		
+					
+					case "share":
+						if(request.getParameter("share_task_id") == null){
+							break;
+						}
+					return;		
+					
+				};
+			
 					
 		}
 		System.out.println("reached the end, to be forwarded to login servlet!");

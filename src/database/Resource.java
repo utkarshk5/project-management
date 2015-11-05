@@ -66,7 +66,43 @@ public class Resource {
 	return null;	
 	}
 
+public static ResultSet getResoursesForTask(int task_id){
+		Connection connection=null;
 		
+		try{
+			connection=getConnection();
+			PreparedStatement pstmt= connection.prepareStatement("select * from resourceassign natural join resources where task_id=?");
+			pstmt.setInt(1, task_id);
+			return pstmt.executeQuery();
+		} catch(SQLException sqle){
+			System.out.println("SQL exception when fetching resources for tasks");
+		} finally{
+			closeConnection(connection);
+		}
+		return null;
+	}
+
+
+public static String getResourceName(int resource_id){
+		Connection connection=null;
+		
+		try{
+			connection=getConnection();
+			PreparedStatement pstmt= connection.prepareStatement("select filename from resources where resource_id=?");
+			pstmt.setInt(1, resource_id);
+			ResultSet rs = pstmt.executeQuery();
+			rs.next();
+			return rs.getString(1);
+			
+		} catch(SQLException sqle){
+			System.out.println("SQL exception when fetching filename");
+		} finally{
+			closeConnection(connection);
+		}
+		return null;
+	}
+
+	
 	static Connection getConnection() {
 		String dbURL = "jdbc:postgresql://10.105.1.12/cs387";
         String dbUser = "db130050022";

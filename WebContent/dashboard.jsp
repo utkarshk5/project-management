@@ -5,6 +5,7 @@
 <%@ page import="database.Task" %>
 <%@ page import="database.User" %>
 <%@ page import="database.Team" %>
+<%@ page import="database.Resource" %>
 
 <!DOCTYPE html>
 <html lang="en">
@@ -252,6 +253,39 @@
 						</div>
 						<div id="collapse<%out.print(i);%>" class="panel-collapse collapse in" role="tabpanel" aria-labelledby="heading<%out.print(i);%>">
 						  <div class="panel-body">
+							<form action='Submit' method="POST" > 
+								<label for="this">Manage Resources</label>
+										</br>Select File
+										<select name="resource_id" class="form-control">
+ 										<%
+										ResultSet resourceRS = Resource.getResoursesForTask(taskRS.getInt("task_id"));
+										for(int k=1; resourceRS.next(); k++){
+											%>
+											<option value="<% out.print(resourceRS.getInt("resource_id")); %>"><%out.print(resourceRS.getString("fileName") ); %></option>
+										<% } %> 
+										</select>
+										Share on
+										<select name="share_task_id" class="form-control">
+ 										<%
+ 										ResultSet tempTaskRS = Task.getTasks(id,false);
+ 										ResultSet tempSubtaskRS = Task.getSubtasks(id,false);
+										for(int k=1; tempTaskRS.next(); k++){
+											%>
+											<option value="<% out.print(tempTaskRS.getInt("task_id")); %>"><%out.print(k+" "+tempTaskRS.getString("title") ); %></option>
+										<% } %>
+										<%
+										for(int k=1; tempSubtaskRS.next(); k++){
+											%>
+											<option value="<% out.print(tempSubtaskRS.getInt("task_id")); %>"><%out.print(k+" "+tempSubtaskRS.getString("title") ); %></option>
+										<% } %>
+										
+										</select><br/>
+										<button type="submit" name = "resourceSubmit" value = "download" class="btn btn-default"> Download </button>
+										<button type="submit" name = "resourceSubmit" value = "share" class="btn btn-default"> Share </button>
+								
+								<input type="hidden" name="formType" value="manageFiles">
+								<input type="hidden" name="task_id" value="<%out.print(taskRS.getInt("task_id"));%>">
+							</form> <br/>
 							<form action='Submit' method="POST" enctype="multipart/form-data"> 
 								<label for="this">File upload</label>
 								<input type="file" name="file" onchange="this.form.submit()">
