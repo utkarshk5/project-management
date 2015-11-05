@@ -52,7 +52,7 @@ public class Team {
 		return null;
 	}
 
-	public static void ChangeLeader(int teamID, int leader){
+	public static void changeLeader(int teamID, int leader){
 		Connection connection=null;
 		
 		try{
@@ -119,6 +119,28 @@ public class Team {
 		} finally{
 			closeConnection(connection);
 		}
+	}
+	
+	public static boolean checkMembers(ArrayList<Integer> user_id, int teamID){
+		Connection connection=null;
+		
+		try{
+			connection=getConnection();
+			for(int i=0;i<user_id.size();++i)
+			{
+				PreparedStatement pstmt= connection.prepareStatement("select * from teamAssign where (team_id, user_id) = (?,?)");
+				pstmt.setInt(1, teamID);
+				pstmt.setInt(2, user_id.get(i));
+				ResultSet rs = pstmt.executeQuery();
+				if(!rs.next()) return false;
+			}
+			return true;
+		} catch(SQLException sqle){
+			System.out.println("SQL exception when checking users belong to the team");
+		} finally{
+			closeConnection(connection);
+		}
+		return false;
 	}
 
 	static Connection getConnection() {

@@ -2,6 +2,7 @@ package database;
 
 import java.io.IOException;
 import java.sql.Date;
+import java.sql.ResultSet;
 import java.util.ArrayList;
 
 import javax.servlet.ServletException;
@@ -32,6 +33,7 @@ public class Submit extends HttpServlet {
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		// TODO Auto-generated method stub
 		System.out.println("entered submit servlet");
+		request.setAttribute("errordash", "");
 		HttpSession session = request.getSession(false);
 		if(session==null){
 			request.setAttribute("error", "Please login to continue");
@@ -96,6 +98,12 @@ public class Submit extends HttpServlet {
 				{
 					userList4.add(Integer.parseInt(temp4[i]));
 				}
+				if(!Team.checkMembers(userList4, Integer.parseInt(request.getParameter("team_id"))))
+				{
+					request.setAttribute("errordash", "The Users selected must be of the selected Team");
+					request.getRequestDispatcher("Login").forward(request, response);
+					return;
+				}
 				Task.createTask(userList4,
 					request.getParameter("title"),
 					Date.valueOf(request.getParameter("deadline")),
@@ -115,12 +123,23 @@ public class Submit extends HttpServlet {
 				return;
 				
 			case "makeTeam":
-				Team.makeTeam(request.getParameter("team_name"), Integer.parseInt(request.getParameter("leader_id")));
+				
+				Team.makeTeam(request.getParameter("team_name"), Integer.parseInt(request.getParameter("user_id")));
 				request.getRequestDispatcher("Login").forward(request, response);
 				return;
 			
 			case "changeTeamLeader": 
-				break;
+				ArrayList<Integer> tempList = new ArrayList<Integer>();
+				tempList.add(Integer.parseInt(request.getParameter("leader_id")));
+				if(!Team.checkMembers(tempList, Integer.parseInt(request.getParameter("team_id"))))
+				{
+					request.setAttribute("errordash", "The new leader selected must belong to the selected Team");
+					request.getRequestDispatcher("Login").forward(request, response);
+					return;
+				}
+				Team.changeLeader(Integer.parseInt(request.getParameter("team_id")), Integer.parseInt(request.getParameter("leader_id")));
+				request.getRequestDispatcher("Login").forward(request, response);
+				return;
 			
 			case "deleteTeam": 
 				String[] temp2 = request.getParameterValues("team_id");

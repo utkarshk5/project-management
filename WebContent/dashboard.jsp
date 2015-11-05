@@ -41,6 +41,7 @@
 					<legend class="">Dashboard</legend>
 					<form role="form" action="Login" method="POST">
 						<button type="submit" class="btn btn-primary" style="float:right">Logout</button>
+						<span class="error" style="color:red">${errordash}</span>
 						<input type="hidden" name="formType" value="logout">
 					</form>
 				</div>
@@ -187,7 +188,7 @@
 										<% } %>
 										</select><br/>
 										<input type="hidden" name="formType" value="changeTeamLeader">
-										<button type="submit" class="btn btn-default"> Delete </button>
+										<button type="submit" class="btn btn-default"> Change </button>
 									</form>
 								</li>
 								</ul>

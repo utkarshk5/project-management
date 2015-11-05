@@ -29,6 +29,7 @@ public class Login extends HttpServlet {
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		System.out.println("entered login servlet");
+		request.setAttribute("error", "");
 		String formType = null;
 		if(request.getParameterMap().containsKey("formType") && (request.getParameter("formType").equals("login") || request.getParameter("formType").equals("logout"))){
 			formType=request.getParameter("formType");
