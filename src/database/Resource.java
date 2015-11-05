@@ -44,6 +44,24 @@ public class Resource {
 		return null;
 	}
 
+	public static void addResourceAssign(Integer resource_id, Integer task_id) throws IOException{
+		Connection connection=null;
+		
+		try{
+			connection=getConnection();
+			PreparedStatement pstmt= connection.prepareStatement("insert into resourceAssign (task_id, resource_id) values (?,?)");
+			pstmt.setInt(1, task_id);
+			pstmt.setInt(2, resource_id);
+			pstmt.executeUpdate();
+			
+		} catch(SQLException sqle){
+			System.out.println("SQL exception when adding resource");
+		} finally{
+			closeConnection(connection);
+		}		
+
+	}
+
 	
 	public static InputStream  getResource(Integer resource_id) throws IOException{
 		Connection connection=null;
