@@ -59,7 +59,38 @@ public class Resource {
 		} finally{
 			closeConnection(connection);
 		}		
+	}
 
+
+	public static void removeResourceAssign(Integer resource_id, Integer task_id) throws IOException{
+		Connection connection=null;
+		
+		try{
+			connection=getConnection();
+			PreparedStatement pstmt= connection.prepareStatement("delete from resourceAssign where (task_id, resource_id) = (?,?)");
+			pstmt.setInt(1, task_id);
+			pstmt.setInt(2, resource_id);
+			pstmt.executeUpdate();
+
+			pstmt= connection.prepareStatement("select count(*) from resourceAssign where resource_id = ?");
+			pstmt.setInt(1, resource_id);
+			ResultSet rs = pstmt.executeQuery();
+			rs.next();
+
+			if(rs.getInt(1)>0){
+				return;
+			}
+			
+			pstmt= connection.prepareStatement("delete from resources where resource_id = ? ");
+			pstmt.setInt(1, resource_id);
+			pstmt.executeUpdate();
+			
+			
+		} catch(SQLException sqle){
+			System.out.println("SQL exception when adding resource");
+		} finally{
+			closeConnection(connection);
+		}		
 	}
 
 	
