@@ -38,8 +38,7 @@
 				      </div>
 				  </fieldset>
 				</form><br/>
-			<a href="signup.jsp"> First time here? Register </a><br/><br/>
-			<a> Forgot password? </a>
+			<a href="signup.jsp"> First time here? Register </a>
 			</div>
 		</div>
 	</div>

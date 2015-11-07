@@ -63,7 +63,7 @@ public class Submit extends HttpServlet {
 				User.addUser(
 					request.getParameter("name"), request.getParameter("email"),
 					request.getParameter("password"), request.getParameter("phone"),
-					request.getParameter("address"), Integer.parseInt(request.getParameter("team_id")));
+					request.getParameter("address"));
 				request.setAttribute("error", "Registered successfully! Please login");
 				request.getRequestDispatcher("Login").forward(request, response);
 				return;

@@ -20,8 +20,6 @@ CREATE TABLE users
  phone   	 VARCHAR(15),
  address    VARCHAR(80),
  clearance    INTEGER,
- question     VARCHAR(200) not null,
- answer     VARCHAR(20) not null,
  PRIMARY KEY (user_id)
 );
 
@@ -87,6 +85,11 @@ PRIMARY KEY(task_id, resource_id),
   FOREIGN KEY (resource_id) REFERENCES resources
   ON DELETE CASCADE
 );
+
+alter sequence resources_resource_id_seq restart with 1;
+alter sequence users_user_id_seq restart with 1;
+alter sequence tasks_task_id_seq restart with 1;
+alter sequence teams_team_id_seq restart with 1;
 
 -- CREATE TABLE subtasks
 --     (subtask     INTEGER,

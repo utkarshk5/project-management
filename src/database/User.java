@@ -3,7 +3,7 @@ package database;
 import java.sql.*;
 
 public class User {	
-	public static void addUser(String name, String email, String password, String phone, String address, int team_id){
+	public static void addUser(String name, String email, String password, String phone, String address){
 		Connection connection=null;
 		
 		try{
@@ -15,14 +15,6 @@ public class User {
 			pstmt.setString(4, phone);
 			pstmt.setString(5, address);
 			pstmt.executeUpdate();
-			PreparedStatement pstmt1= connection.prepareStatement("select max(user_id) from users");
-			ResultSet rs = pstmt1.executeQuery();
-			rs.next();
-			int user_id = rs.getInt(1);
-			PreparedStatement pstmt2= connection.prepareStatement("insert into teamAssign (user_id, team_id) values (?,?)");
-			pstmt2.setInt(1, user_id);
-			pstmt2.setInt(2, team_id);
-			pstmt2.executeUpdate();
 			
 		} catch(SQLException sqle){
 			System.out.println("SQL exception when adding user");

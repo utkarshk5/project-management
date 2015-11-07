@@ -28,7 +28,7 @@
 			<div id="legend">
 				<legend class="">Signup</legend>
 			</div>
-			<form role="form" action="Login" method="POST">
+			<form role="form" action="Submit" method="POST">
 				<div class="col-lg-6">
 					<div class="well well-sm"><strong><span class="glyphicon glyphicon-asterisk"></span> Required Field</strong></div>
 						<div class="form-group">
@@ -60,28 +60,9 @@
 						</div>
 					</div>
 					<div class="form-group">
-						<label for="password2">Confirm Password</label>
-						<div class="input-group">
-							<input type="password" class="form-control" id="password2" name="password2" placeholder="Confirm Password" required>
-							<span class="input-group-addon"><span class="glyphicon glyphicon-asterisk"></span></span>
-						</div>
-					</div>
-					<div class="form-group">
-						<label for="team">Enter Team</label>
-						<div class="input-group">
-							<select name="team_id" class="form-control" id="team_id">
-								<option disabled selected> Choose Team </option>
-	<% for(int i=1; teamsRS.next(); i++){ %>
-								<option value="<%out.print(teamsRS.getInt("team_id"));%>"><%out.print(teamsRS.getString("team_name")); %></option>
-	<% } %>
-							</select><br/>
-							<span class="input-group-addon"><span class="glyphicon glyphicon-asterisk"></span></span>
-						</div>
-					</div>
-					<div class="form-group">
 						<label for="InputAddress">Enter Address</label>
 						<div class="input-group">
-							<textarea name="InputAddress" id="InputAddress" class="form-control" rows="5"></textarea>
+							<textarea name="address" id="address" class="form-control" rows="5"></textarea>
 							<span class="input-group-addon"><span class="glyphicon glyphicon-asterisk"></span></span>
 						</div>
 					</div>
